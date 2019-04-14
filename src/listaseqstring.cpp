@@ -2,23 +2,6 @@
 #include <iostream>
 #include <string>
 
-/* Construtor do item */
-ItemString::ItemString(std::string _dado){
-    Dado = _dado;
-    Chave = _dado;
-}
-
-/* Construtor Vazio */
-ItemString::ItemString(){
-    this->Dado = "";
-    this->Chave = "";
-}
-
-/* Retorna a string guardada no ItemString */
-std::string ItemString::get_dado(){
-    return this->Dado;
-}
-
 /* Construtor da classe ListaSequencial */
 ListaSequencialString::ListaSequencialString(int n){
     this->Primeiro = 0;
@@ -52,5 +35,10 @@ void ListaSequencialString::Imprime(){
             std::cout << this->Item[i].get_dado() << std::endl;
         }
     }
+}
+
+/* Overload do operador[], apenas para consulta */
+ItemString ListaSequencialString::operator[] (int indice) const{
+    return this->Item[indice];
 }
 

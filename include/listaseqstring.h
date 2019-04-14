@@ -1,20 +1,11 @@
 #ifndef LISTA_SEQUENCIAL_STRING_H 
 #define LISTA_SEQUENCIAL_STRING_H 
 
+#include "itemstring.h"
 #include<string>
 
-typedef std::string TipoChave;
-typedef int TipoApontador;
 
-class ItemString{
-private:
-    TipoChave Chave;
-    std::string Dado;
-public:
-    ItemString(std::string _Dado);
-    ItemString();
-    std::string get_dado();
-};
+typedef int TipoApontador;
 
 class ListaSequencialString{
 private:
@@ -27,6 +18,7 @@ public:
     void Adiciona(ItemString elemento);
     bool Vazia();
     void Imprime();
+    ItemString operator[] (int indice) const;
 };
 
 
