@@ -2,15 +2,15 @@
 #include <string>
 #include <iostream>
 
-#include "listaseqstring.h"
+#include "listacurso.h"
 
 
 
 
 
 int main(int argc, char* argv[]){
-    ListaSequencialString minhalista(2);
-    ItemString ola("Ola"), mundo("Mundo");
+    ListaSequencialCurso minhalista(2);
+    Curso ola("Ola",1), mundo("Mundo",0);
     minhalista.Adiciona(ola);
     minhalista.Adiciona(mundo);
     minhalista.Imprime();

@@ -1,25 +1,25 @@
 #ifndef LISTA_SEQUENCIAL_STRING_H 
 #define LISTA_SEQUENCIAL_STRING_H 
 
-#include "itemstring.h"
+#include "curso.h"
 #include<string>
 
 
 typedef int TipoApontador;
 
-class ListaSequencialString{
+class ListaSequencialCurso{
 private:
-    ItemString* Item;
+    Curso* Item;
     TipoApontador Primeiro, Ultimo;
     int TAM;
 public:
-    ListaSequencialString(int n);
-    ~ListaSequencialString();
+    ListaSequencialCurso(int n);
+    ~ListaSequencialCurso();
 
-    void Adiciona(ItemString elemento);
+    void Adiciona(Curso& elemento);
     bool Vazia();
     void Imprime();
-    ItemString operator[] (int indice) const;
+    Curso operator[] (int indice) const;
 };
 
 
