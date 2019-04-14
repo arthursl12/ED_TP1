@@ -1,7 +1,10 @@
 #include "itemstring.h"
+#include <stdexcept>
 
 /* Construtor do ItemString */
 ItemString::ItemString(std::string _dado){
+    if (_dado == "")
+        throw std::invalid_argument("String vazia");
     Dado = _dado;
     Chave = _dado;
 }

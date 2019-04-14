@@ -11,6 +11,7 @@ class ListaSequencialString{
 private:
     ItemString* Item;
     TipoApontador Primeiro, Ultimo;
+    int TAM;
 public:
     ListaSequencialString(int n);
     ~ListaSequencialString();

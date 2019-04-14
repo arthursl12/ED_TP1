@@ -4,9 +4,13 @@
 
 /* Construtor da classe ListaSequencial */
 ListaSequencialString::ListaSequencialString(int n){
+    if (n <= 0){
+        throw std::invalid_argument("Lista com 0 ou menos elementos");
+    }
     this->Primeiro = 0;
     this->Ultimo = 0;
     this->Item = new ItemString[n];
+    this->TAM = n;
 }
 
 /* Destrutor da classe ListaSequencial */
@@ -22,6 +26,9 @@ bool ListaSequencialString::Vazia(){
 /*  Adiciona um elemento ao fim da lista;
     Lista cheia levanta uma exceção */
 void ListaSequencialString::Adiciona(ItemString elemento){
+    if (this->Ultimo == this->TAM){
+        throw std::invalid_argument("Lista Cheia");
+    }
     this->Item[Ultimo] = elemento;
     this->Ultimo++;
 }
@@ -39,6 +46,9 @@ void ListaSequencialString::Imprime(){
 
 /* Overload do operador[], apenas para consulta */
 ItemString ListaSequencialString::operator[] (int indice) const{
+    if (indice >= this->TAM){
+        throw std::out_of_range("Índice inválido");
+    }
     return this->Item[indice];
 }
 
