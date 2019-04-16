@@ -95,7 +95,7 @@ void ListaEncadeadaCandidato::Adiciona(Candidato& novo, int i){
 
 /* Retorna true se a lista está vazia, false do contrário */
 bool ListaEncadeadaCandidato::Vazia(){
-    return (this->n_elementos == 0);
+    return (this->n_elementos == 0 && this->primeiro == this->ultimo);
 }
 
 Candidato ListaEncadeadaCandidato::Consulta(int i){
