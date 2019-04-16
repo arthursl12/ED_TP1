@@ -5,8 +5,13 @@
 
 typedef struct Celula{
     Candidato cand;
-    Candidato* prox;
+    Celula* prox;
+    
+    // Construtor inicializador para Celula_str
+    Celula(Candidato _cand)
+    :cand(_cand){}
 } Celula;
+
 
 class ListaEncadeadaCandidato{
 private:
@@ -17,15 +22,15 @@ public:
     ListaEncadeadaCandidato();
     ~ListaEncadeadaCandidato();
 
-    void AdicionaInicio(Candidato novo);
-    void Adiciona(Candidato novo, int i);
-    void AdicionaFim(Candidato novo);
+    void AdicionaInicio(Candidato& novo);
+    void Adiciona(Candidato& novo, int i);
+    void AdicionaFim(Candidato& novo);
     
-    Candidato* RetiraUltimo();
-    Candidato* RetiraPrimeiro();
-    Candidato* Retira(int i);
+    Candidato& RetiraUltimo();
+    Candidato& RetiraPrimeiro();
+    Candidato& Retira(int i);
 
-    Candidato* Consulta(int i);
+    Candidato Consulta(int i);
     bool Vazia();
 };
 
