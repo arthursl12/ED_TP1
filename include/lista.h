@@ -1,42 +1,43 @@
-#ifndef LISTA_ENCADEADA_CANDIDATO_H
-#define LISTA_ENCADEADA_CANDIDATO_H
+#ifndef LISTA_ENCADEADA_H
+#define LISTA_ENCADEADA_H
 
 #include "candidato.h"
 
-typedef struct Celula{
-    Candidato cand;
+template<class T>
+struct Celula{
+    T objeto;
     Celula* prox;
     
     // Construtor inicializador para Celula_str
-    Celula(Candidato _cand)
-    :cand(_cand){}
-} Celula;
+    Celula(T _obj)
+    :objeto(_obj){}
+};
 
-
-class ListaEncadeadaCandidato{
+template<class T>
+class ListaEncadeada{
 private:
-    Celula* ultimo;
-    Celula* primeiro;
+    Celula<T>* ultimo;
+    Celula<T>* primeiro;
     int n_elementos;
 
-    Celula* Pesquisa(int i);
+    Celula<T>* Pesquisa(int i);
 public:
-    ListaEncadeadaCandidato();
-    ~ListaEncadeadaCandidato();
+    ListaEncadeada();
+    ~ListaEncadeada();
 
-    void AdicionaInicio(Candidato& novo);
-    void Adiciona(Candidato& novo, int i);
-    void AdicionaFim(Candidato& novo);
+    void AdicionaInicio(T& novo);
+    void Adiciona(T& novo, int i);
+    void AdicionaFim(T& novo);
     
-    Candidato* RetiraUltimo();
-    Candidato* RetiraPrimeiro();
-    Candidato* Retira(int i);
+    T* RetiraUltimo();
+    T* RetiraPrimeiro();
+    T* Retira(int i);
 
-    Candidato Consulta(int i);
+    T Consulta(int i);
     bool Vazia();
 };
 
 
 
 
-#endif /* LISTA_ENCADEADA_CANDIDATO_H */
+#endif /* LISTA_ENCADEADA_H */

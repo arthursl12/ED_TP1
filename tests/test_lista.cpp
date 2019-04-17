@@ -2,12 +2,12 @@
 #include "doctest.h"
 #include "lista.h"
 
-TEST_CASE("ListaEncadeadaCandidato: construtor"){
-    CHECK_NOTHROW(ListaEncadeadaCandidato());
+TEST_CASE("ListaEncadeada: construtor"){
+    CHECK_NOTHROW(ListaEncadeada<Candidato>());
 }
 
-TEST_CASE("ListaEncadeadaCandidato: Vazia"){
-    ListaEncadeadaCandidato L;
+TEST_CASE("ListaEncadeada: Vazia"){
+    ListaEncadeada<Candidato> L;
     CHECK(L.Vazia() == true);
 
     Candidato c1("Joao da Silva", 765.87,1,23);
@@ -15,9 +15,9 @@ TEST_CASE("ListaEncadeadaCandidato: Vazia"){
     CHECK(L.Vazia() == false);
 }
 
-TEST_CASE("ListaEncadeadaCandidato: Consulta"){
+TEST_CASE("ListaEncadeada: Consulta"){
     SUBCASE("Lista Vazia"){
-        ListaEncadeadaCandidato L;
+        ListaEncadeada<Candidato> L;
 
         CHECK(L.Vazia() == true);
         CHECK_THROWS_AS(L.Consulta(0), std::invalid_argument);
@@ -28,7 +28,7 @@ TEST_CASE("ListaEncadeadaCandidato: Consulta"){
         Candidato c1("Joao da Silva", 765.87,1,23);
         Candidato c2("Manuel da Silva", 722.87,2,3);
         Candidato c3("Maria da Silva", 622.87,0,2);
-        ListaEncadeadaCandidato L;
+        ListaEncadeada<Candidato> L;
 
         L.AdicionaFim(c1);
         L.AdicionaFim(c2);
@@ -43,11 +43,11 @@ TEST_CASE("ListaEncadeadaCandidato: Consulta"){
     }   
 }
 
-TEST_CASE("ListaEncadeadaCandidato: Adiciona"){
+TEST_CASE("ListaEncadeada: Adiciona"){
     SUBCASE("Adiciona no início"){
         Candidato c1("Joao da Silva", 765.87,1,23);
         Candidato c2("Manuel da Silva", 722.87,2,3);
-        ListaEncadeadaCandidato L;
+        ListaEncadeada<Candidato> L;
         L.AdicionaInicio(c1);
         L.AdicionaInicio(c2);
 
@@ -59,7 +59,7 @@ TEST_CASE("ListaEncadeadaCandidato: Adiciona"){
         Candidato c2("Manuel da Silva", 722.87,2,3);
         Candidato c3("Maria da Silva", 622.87,0,2);
         Candidato c4("Joana da Silva", 627.83,1,2);
-        ListaEncadeadaCandidato L;
+        ListaEncadeada<Candidato> L;
 
         L.AdicionaFim(c4);
         CHECK(L.Consulta(0).get_nome() == c4.get_nome());
@@ -75,7 +75,7 @@ TEST_CASE("ListaEncadeadaCandidato: Adiciona"){
         Candidato c3("Maria da Silva", 622.87,0,2);
         Candidato c4("Joana da Silva", 627.83,1,2);
         Candidato c5("Mario da Silva", 657.93,5,1);
-        ListaEncadeadaCandidato L;
+        ListaEncadeada<Candidato> L;
 
         L.Adiciona(c1,0);
         CHECK(L.Consulta(0).get_nome() == c1.get_nome());
@@ -99,12 +99,12 @@ TEST_CASE("ListaEncadeadaCandidato: Adiciona"){
     }
 }
 
-TEST_CASE("ListaEncadeadaCandidato: Retira"){
+TEST_CASE("ListaEncadeada: Retira"){
     SUBCASE("Retira o último"){
         Candidato c1("Joao da Silva", 765.87,1,23);
         Candidato c2("Manuel da Silva", 722.87,2,3);
         Candidato c3("Maria da Silva", 622.87,0,2);
-        ListaEncadeadaCandidato L;
+        ListaEncadeada<Candidato> L;
         L.AdicionaFim(c1);
         L.AdicionaFim(c2);
         L.AdicionaFim(c3);
@@ -134,7 +134,7 @@ TEST_CASE("ListaEncadeadaCandidato: Retira"){
         Candidato c1("Joao da Silva", 765.87,1,23);
         Candidato c2("Manuel da Silva", 722.87,2,3);
         Candidato c3("Maria da Silva", 622.87,0,2);
-        ListaEncadeadaCandidato L;
+        ListaEncadeada<Candidato> L;
         L.AdicionaFim(c1);
         L.AdicionaFim(c2);
         L.AdicionaFim(c3);
@@ -165,7 +165,7 @@ TEST_CASE("ListaEncadeadaCandidato: Retira"){
         Candidato c3("Maria da Silva", 622.87,0,2);
         Candidato c4("Joana da Silva", 627.83,1,2);
         Candidato c5("Mario da Silva", 657.93,5,1);
-        ListaEncadeadaCandidato L;
+        ListaEncadeada<Candidato> L;
 
         L.Adiciona(c1,0);
         L.Adiciona(c2,0);

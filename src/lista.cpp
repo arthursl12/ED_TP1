@@ -1,11 +1,13 @@
 #include "lista.h"
+#include "curso.h"
 #include <stdexcept>
 #include <iostream>
 
 /* Cria uma lista vazia, apenas com a célula cabeça */
-ListaEncadeadaCandidato::ListaEncadeadaCandidato(){
+template<class T>
+ListaEncadeada<T>::ListaEncadeada(){
     /* Cria célula-cabeça */
-    Celula *cabeca = (Celula*) malloc(sizeof(Celula));
+    Celula<T> *cabeca = (Celula<T>*) malloc(sizeof(Celula<T>));
     this->primeiro = cabeca;
 
     this->ultimo = this->primeiro;
@@ -14,9 +16,10 @@ ListaEncadeadaCandidato::ListaEncadeadaCandidato(){
 }
 
 /* Destrutor da lista, libera a memória alocada */
-ListaEncadeadaCandidato::~ListaEncadeadaCandidato(){
-    Celula* atual;
-    Celula* proximo;
+template<class T>
+ListaEncadeada<T>::~ListaEncadeada(){
+    Celula<T>* atual;
+    Celula<T>* proximo;
 
     // Liberar a célula-cabeça
     atual = this->primeiro;
@@ -33,11 +36,12 @@ ListaEncadeadaCandidato::~ListaEncadeadaCandidato(){
     this->ultimo = nullptr;
 }
 
-/* Adiciona o candidato no início da lista */
-void ListaEncadeadaCandidato::AdicionaInicio(Candidato& novo){
+/* Adiciona o objeto no início da lista */
+template<class T>void 
+ListaEncadeada<T>::AdicionaInicio(T& novo){
     // Cria a nova célula
-    Celula* nova_celula;
-    nova_celula = new Celula(novo);
+    Celula<T>* nova_celula;
+    nova_celula = new Celula<T>(novo);
 
     // Coloca ela no lugar da primeira célula (depois da cabeça, obviamente)
     nova_celula->prox = this->primeiro->prox;
@@ -52,11 +56,12 @@ void ListaEncadeadaCandidato::AdicionaInicio(Candidato& novo){
     this->n_elementos++;
 }
 
-/* Adiciona o candidato no fim da lista */
-void ListaEncadeadaCandidato::AdicionaFim(Candidato& novo){
+/* Adiciona o objeto no fim da lista */
+template<class T>void 
+ListaEncadeada<T>::AdicionaFim(T& novo){
     // Cria a nova célula
-    Celula* nova_celula;
-    nova_celula = new Celula(novo);
+    Celula<T>* nova_celula;
+    nova_celula = new Celula<T>(novo);
 
     // Coloca no último lugar
     nova_celula->prox = nullptr;
@@ -67,8 +72,9 @@ void ListaEncadeadaCandidato::AdicionaFim(Candidato& novo){
     this->n_elementos++;
 }
 
-/* Adiciona o candidato na posição de índice i da lista */
-void ListaEncadeadaCandidato::Adiciona(Candidato& novo, int i){
+/* Adiciona o objeto na posição de índice i da lista */
+template<class T>void 
+ListaEncadeada<T>::Adiciona(T& novo, int i){
     if (i > n_elementos)
         throw std::out_of_range("Indice invalido");
     
@@ -80,11 +86,11 @@ void ListaEncadeadaCandidato::Adiciona(Candidato& novo, int i){
         this->AdicionaFim(novo);
     }else{
         // Cria a nova célula
-        Celula* nova_celula;
-        nova_celula = new Celula(novo);
+        Celula<T>* nova_celula;
+        nova_celula = new Celula<T>(novo);
         nova_celula->prox = nullptr;
 
-        Celula* anterior = this->primeiro; // j = 0 (posição 0)
+        Celula<T>* anterior = this->primeiro; // j = 0 (posição 0)
         for (int j = 0; j != i; j++){
             anterior = anterior->prox;
         } // Encontrar o anterior à posição de interesse
@@ -97,17 +103,20 @@ void ListaEncadeadaCandidato::Adiciona(Candidato& novo, int i){
 }
 
 /* Retorna true se a lista está vazia, false do contrário */
-bool ListaEncadeadaCandidato::Vazia(){
+template<class T>bool 
+ListaEncadeada<T>::Vazia(){
     return (this->n_elementos == 0 && this->primeiro == this->ultimo);
 }
 
-/* Retorna uma cópia do candidato na posição de índice i */
-Candidato ListaEncadeadaCandidato::Consulta(int i){
-    return this->Pesquisa(i)->cand;
+/* Retorna uma cópia do objeto na posição de índice i */
+template<class T>
+T ListaEncadeada<T>::Consulta(int i){
+    return this->Pesquisa(i)->objeto;
 }
 
 /* Retorna o ponteiro da célula na posição de índice i */
-Celula* ListaEncadeadaCandidato::Pesquisa(int i){
+template<class T>
+Celula<T>* ListaEncadeada<T>::Pesquisa(int i){
     if (this->Vazia() == true)
         throw std::invalid_argument("Lista Vazia");
     if (i < 0 || i >= this->n_elementos)
@@ -120,7 +129,7 @@ Celula* ListaEncadeadaCandidato::Pesquisa(int i){
         // Último elemento
         return this->ultimo;
     }else{
-        Celula* atual = this->primeiro->prox; // j = 0 (posição 0)
+        Celula<T>* atual = this->primeiro->prox; // j = 0 (posição 0)
         for (int j = 1; j != i ; j++){
             atual = atual->prox;
         } // Encontrar o anterior à posição de interesse
@@ -129,15 +138,16 @@ Celula* ListaEncadeadaCandidato::Pesquisa(int i){
 }
 
 /* Retira o último e retorna o retirado por referência */
-Candidato* ListaEncadeadaCandidato::RetiraUltimo(){
+template<class T>
+T* ListaEncadeada<T>::RetiraUltimo(){
     if (this->Vazia() == true)
         throw std::invalid_argument("Lista vazia");
     if (this->n_elementos == 1)
         return this->RetiraPrimeiro();
     
     // Encontra o antes do último e o último
-    Celula* ant_fim = this->Pesquisa(this->n_elementos-2);
-    Celula* fim = this->ultimo;
+    Celula<T>* ant_fim = this->Pesquisa(this->n_elementos-2);
+    Celula<T>* fim = this->ultimo;
 
     // Rearranja os ponteiros
     ant_fim->prox = nullptr;
@@ -146,18 +156,19 @@ Candidato* ListaEncadeadaCandidato::RetiraUltimo(){
     // Decrementa o contador
     this->n_elementos--;
 
-    Candidato* c = new Candidato(fim->cand);
+    T* c = new T(fim->objeto);
     delete (fim);
     return c;
 }
 
-Candidato* ListaEncadeadaCandidato::RetiraPrimeiro(){
+template<class T>
+T* ListaEncadeada<T>::RetiraPrimeiro(){
     if (this->Vazia() == true)
         throw std::invalid_argument("Lista vazia");
     
     // Basta rearranjar os ponteiros da célula-cabeça
-    Celula* cabeca = this->primeiro;
-    Celula* eliminar = this->primeiro->prox;
+    Celula<T>* cabeca = this->primeiro;
+    Celula<T>* eliminar = this->primeiro->prox;
     cabeca->prox = eliminar->prox;
 
     if (this->n_elementos == 1){
@@ -169,12 +180,13 @@ Candidato* ListaEncadeadaCandidato::RetiraPrimeiro(){
     // Decrementa o contador
     this->n_elementos--;
 
-    Candidato* c = new Candidato(eliminar->cand);
+    T* c = new T(eliminar->objeto);
     delete (eliminar);
     return c;
 }
 
-Candidato* ListaEncadeadaCandidato::Retira(int i){
+template<class T>
+T* ListaEncadeada<T>::Retira(int i){
     if (this->Vazia() == true)
         throw std::invalid_argument("Lista vazia");
     if (i > n_elementos)
@@ -187,20 +199,24 @@ Candidato* ListaEncadeadaCandidato::Retira(int i){
         // Retirar o último elemento
         return this->RetiraUltimo();
     }else{
-        Celula* anterior = this->primeiro;
+        Celula<T>* anterior = this->primeiro;
         for (int j = 0; j != i; j++){
             anterior = anterior->prox;
         } // Encontra a célula anterior;
 
         // Rearrumar os ponteiros
-        Celula* eliminar = anterior->prox;
+        Celula<T>* eliminar = anterior->prox;
         anterior->prox = eliminar->prox;
 
         // Decrementa o contador
         this->n_elementos--;
 
-        Candidato *c = new Candidato(eliminar->cand);
+        T *c = new T(eliminar->objeto);
         delete(eliminar);
         return c;
     }
 }
+
+/* Permite que os seguintes templates sejam válidos, permitindo a compilação */
+template class ListaEncadeada<Candidato>;
+template class ListaEncadeada<Curso>;
