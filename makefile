@@ -6,7 +6,7 @@ BUILDDIR := build
 TARGET := main
 
 SRCEXT := cpp
-CFLAGS := --coverage -g -Wall -Wno-unknown-pragmas -O3 -std=c++11
+CFLAGS := --coverage -g -Wall -Wno-unknown-pragmas -fno-strict-overflow -O3 -std=c++11
 T_CFLAGS := --coverage -g -Wall -O3
 INC := -I include -I third-party
 

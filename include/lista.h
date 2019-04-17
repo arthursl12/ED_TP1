@@ -18,6 +18,8 @@ private:
     Celula* ultimo;
     Celula* primeiro;
     int n_elementos;
+
+    Celula* Pesquisa(int i);
 public:
     ListaEncadeadaCandidato();
     ~ListaEncadeadaCandidato();
@@ -26,9 +28,9 @@ public:
     void Adiciona(Candidato& novo, int i);
     void AdicionaFim(Candidato& novo);
     
-    Candidato& RetiraUltimo();
-    Candidato& RetiraPrimeiro();
-    Candidato& Retira(int i);
+    Candidato* RetiraUltimo();
+    Candidato* RetiraPrimeiro();
+    Candidato* Retira(int i);
 
     Candidato Consulta(int i);
     bool Vazia();

@@ -69,10 +69,13 @@ void ListaEncadeadaCandidato::AdicionaFim(Candidato& novo){
 
 /* Adiciona o candidato na posição de índice i da lista */
 void ListaEncadeadaCandidato::Adiciona(Candidato& novo, int i){
+    if (i > n_elementos)
+        throw std::out_of_range("Indice invalido");
+    
     if (i == 0){
         // Adicionar no início
         this->AdicionaInicio(novo);
-    }else if (i == this->n_elementos-1){
+    }else if (i == this->n_elementos){
         // Adicionar no final
         this->AdicionaFim(novo);
     }else{
@@ -81,12 +84,12 @@ void ListaEncadeadaCandidato::Adiciona(Candidato& novo, int i){
         nova_celula = new Celula(novo);
         nova_celula->prox = nullptr;
 
-        Celula* atual = this->primeiro->prox; // j = 0 (posição 0)
-        for (int j = 0; j != i-1; j++){
-            atual = atual->prox;
+        Celula* anterior = this->primeiro; // j = 0 (posição 0)
+        for (int j = 0; j != i; j++){
+            anterior = anterior->prox;
         } // Encontrar o anterior à posição de interesse
-        nova_celula->prox = atual->prox;
-        atual->prox = nova_celula;
+        nova_celula->prox = anterior->prox;
+        anterior->prox = nova_celula;
 
         // Adiciona um ao contador de elementos
         this->n_elementos++;
@@ -98,7 +101,13 @@ bool ListaEncadeadaCandidato::Vazia(){
     return (this->n_elementos == 0 && this->primeiro == this->ultimo);
 }
 
+/* Retorna uma cópia do candidato na posição de índice i */
 Candidato ListaEncadeadaCandidato::Consulta(int i){
+    return this->Pesquisa(i)->cand;
+}
+
+/* Retorna o ponteiro da célula na posição de índice i */
+Celula* ListaEncadeadaCandidato::Pesquisa(int i){
     if (this->Vazia() == true)
         throw std::invalid_argument("Lista Vazia");
     if (i < 0 || i >= this->n_elementos)
@@ -106,19 +115,92 @@ Candidato ListaEncadeadaCandidato::Consulta(int i){
     
     if (i == 0){
         // Primeiro elemento
-        return this->primeiro->prox->cand;
+        return this->primeiro->prox;
     }else if (i == this->n_elementos-1){
         // Último elemento
-        return this->ultimo->cand;
+        return this->ultimo;
     }else{
         Celula* atual = this->primeiro->prox; // j = 0 (posição 0)
-        for (int j = 0; j != i-1 ; j++){
+        for (int j = 1; j != i ; j++){
             atual = atual->prox;
         } // Encontrar o anterior à posição de interesse
-        return atual->prox->cand;
+        return atual->prox;
     }
 }
 
-Candidato& ListaEncadeadaCandidato::RetiraUltimo(){}
-Candidato& ListaEncadeadaCandidato::RetiraPrimeiro(){}
-Candidato& ListaEncadeadaCandidato::Retira(int i){}
+/* Retira o último e retorna o retirado por referência */
+Candidato* ListaEncadeadaCandidato::RetiraUltimo(){
+    if (this->Vazia() == true)
+        throw std::invalid_argument("Lista vazia");
+    if (this->n_elementos == 1)
+        return this->RetiraPrimeiro();
+    
+    // Encontra o antes do último e o último
+    Celula* ant_fim = this->Pesquisa(this->n_elementos-2);
+    Celula* fim = this->ultimo;
+
+    // Rearranja os ponteiros
+    ant_fim->prox = nullptr;
+    this->ultimo = ant_fim;
+    
+    // Decrementa o contador
+    this->n_elementos--;
+
+    Candidato* c = new Candidato(fim->cand);
+    delete (fim);
+    return c;
+}
+
+Candidato* ListaEncadeadaCandidato::RetiraPrimeiro(){
+    if (this->Vazia() == true)
+        throw std::invalid_argument("Lista vazia");
+    
+    // Basta rearranjar os ponteiros da célula-cabeça
+    Celula* cabeca = this->primeiro;
+    Celula* eliminar = this->primeiro->prox;
+    cabeca->prox = eliminar->prox;
+
+    if (this->n_elementos == 1){
+        // Se for a lista só tiver um elemento
+        this->ultimo = cabeca;
+    }
+
+
+    // Decrementa o contador
+    this->n_elementos--;
+
+    Candidato* c = new Candidato(eliminar->cand);
+    delete (eliminar);
+    return c;
+}
+
+Candidato* ListaEncadeadaCandidato::Retira(int i){
+    if (this->Vazia() == true)
+        throw std::invalid_argument("Lista vazia");
+    if (i > n_elementos)
+        throw std::out_of_range("Indice invalido");
+    
+    if (i == 0){
+        // Retirar o primeiro elemento
+        return this->RetiraPrimeiro();
+    }else if(i == this->n_elementos-1){
+        // Retirar o último elemento
+        return this->RetiraUltimo();
+    }else{
+        Celula* anterior = this->primeiro;
+        for (int j = 0; j != i; j++){
+            anterior = anterior->prox;
+        } // Encontra a célula anterior;
+
+        // Rearrumar os ponteiros
+        Celula* eliminar = anterior->prox;
+        anterior->prox = eliminar->prox;
+
+        // Decrementa o contador
+        this->n_elementos--;
+
+        Candidato *c = new Candidato(eliminar->cand);
+        delete(eliminar);
+        return c;
+    }
+}
