@@ -12,6 +12,7 @@ ListaEncadeada<T>::ListaEncadeada(){
 
     this->ultimo = this->primeiro;
     this->primeiro->prox = nullptr;
+    this->primeiro->ant = nullptr;
     this->n_elementos = 0;
 }
 
@@ -46,9 +47,15 @@ ListaEncadeada<T>::AdicionaInicio(T& novo){
     // Coloca ela no lugar da primeira célula (depois da cabeça, obviamente)
     nova_celula->prox = this->primeiro->prox;
     this->primeiro->prox = nova_celula;
+    nova_celula->ant = this->primeiro;
 
-    // Arruma o ponteiro do último
-    if (this->n_elementos == 0){
+    // Define o ponteiro 'anterior' da célula seguinte
+    if (this->n_elementos != 0){
+        // Nova célula não é a última, logo existe um próximo elemento
+        nova_celula->prox->ant = nova_celula;
+    }else{
+        /* Nova célula é a última, logo não tem-se que arrumar o anterior da 
+        célula seguinte à nova, basta arrumar o ponteiro do último */
         this->ultimo = nova_celula;
     }
 
@@ -65,6 +72,7 @@ ListaEncadeada<T>::AdicionaFim(T& novo){
 
     // Coloca no último lugar
     nova_celula->prox = nullptr;
+    nova_celula->ant = this->ultimo;
     this->ultimo->prox = nova_celula;
     this->ultimo = nova_celula;
 
@@ -89,13 +97,13 @@ ListaEncadeada<T>::Adiciona(T& novo, int i){
         Celula<T>* nova_celula;
         nova_celula = new Celula<T>(novo);
         nova_celula->prox = nullptr;
+        nova_celula->ant = nullptr;
 
-        Celula<T>* anterior = this->primeiro; // j = 0 (posição 0)
-        for (int j = 0; j != i; j++){
-            anterior = anterior->prox;
-        } // Encontrar o anterior à posição de interesse
-        nova_celula->prox = anterior->prox;
-        anterior->prox = nova_celula;
+        Celula<T>* cel_i = Pesquisa(i); // Célula na posição i
+        nova_celula->prox = cel_i;
+        nova_celula->ant = cel_i->ant;
+        nova_celula->ant->prox = nova_celula;
+        cel_i->ant = nova_celula;
 
         // Adiciona um ao contador de elementos
         this->n_elementos++;
@@ -128,12 +136,20 @@ Celula<T>* ListaEncadeada<T>::Pesquisa(int i){
     }else if (i == this->n_elementos-1){
         // Último elemento
         return this->ultimo;
-    }else{
+    }else if (i < this->n_elementos/2){
+        // Até a metade, procure a partir do início
         Celula<T>* atual = this->primeiro->prox; // j = 0 (posição 0)
         for (int j = 1; j != i ; j++){
             atual = atual->prox;
         } // Encontrar o anterior à posição de interesse
         return atual->prox;
+    }else{
+        // Após a metade, procure voltando do fim
+        Celula<T>* atual = this->ultimo; // j = n-1 (posição n-1)
+        for (int j = this->n_elementos-1; j != i; j--){
+            atual = atual->ant;
+        } // Encontrar o elemento à posição de interesse
+        return atual;
     }
 }
 
@@ -146,7 +162,7 @@ T* ListaEncadeada<T>::RetiraUltimo(){
         return this->RetiraPrimeiro();
     
     // Encontra o antes do último e o último
-    Celula<T>* ant_fim = this->Pesquisa(this->n_elementos-2);
+    Celula<T>* ant_fim = this->ultimo->ant; /*<-- Custo constante (Lista Duplamente Encadeada)*/
     Celula<T>* fim = this->ultimo;
 
     // Rearranja os ponteiros
@@ -171,11 +187,15 @@ T* ListaEncadeada<T>::RetiraPrimeiro(){
     Celula<T>* eliminar = this->primeiro->prox;
     cabeca->prox = eliminar->prox;
 
+    // Arrumar o ponteiro 'anterior' ou o último, dependendo do caso
     if (this->n_elementos == 1){
-        // Se for a lista só tiver um elemento
+        /* Se for a lista só tiver um elemento, não tem célula seguinte, logo
+        não precisa arrumar o ponteiro 'anterior' */
         this->ultimo = cabeca;
+    }else{
+        // Arrumar o 'anterior' da célula seguinte à eliminada
+        cabeca->prox->ant = cabeca;
     }
-
 
     // Decrementa o contador
     this->n_elementos--;
@@ -199,14 +219,11 @@ T* ListaEncadeada<T>::Retira(int i){
         // Retirar o último elemento
         return this->RetiraUltimo();
     }else{
-        Celula<T>* anterior = this->primeiro;
-        for (int j = 0; j != i; j++){
-            anterior = anterior->prox;
-        } // Encontra a célula anterior;
+        Celula<T>* eliminar = this->Pesquisa(i);
 
         // Rearrumar os ponteiros
-        Celula<T>* eliminar = anterior->prox;
-        anterior->prox = eliminar->prox;
+        eliminar->ant->prox = eliminar->prox;
+        eliminar->prox->ant = eliminar->ant;
 
         // Decrementa o contador
         this->n_elementos--;

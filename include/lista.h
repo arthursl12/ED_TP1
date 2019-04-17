@@ -7,6 +7,7 @@ template<class T>
 struct Celula{
     T objeto;
     Celula* prox;
+    Celula* ant;
     
     // Construtor inicializador para Celula_str
     Celula(T _obj)
