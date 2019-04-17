@@ -3,32 +3,32 @@
 #include <iostream>
 
 #include "lista.h"
+#include "curso.h"
 
 int main(int argc, char* argv[]){
-    Candidato c1("Joao da Silva", 765.87,1,23);
-    Candidato c2("Manuel da Silva", 722.87,2,3);
-    Candidato c3("Maria da Silva", 622.87,0,2);
-    Candidato c4("Joana da Silva", 627.83,1,2);
-    Candidato c5("Mario da Silva", 657.93,5,1);
-    ListaEncadeada<Candidato> L;
+    ListaEncadeada<Candidato> L_alunos;
+    ListaEncadeada<Curso> L_curso;
 
-    L.Adiciona(c1,0);
-    L.Consulta(0).get_nome() == c1.get_nome();
+    
 
-    L.Adiciona(c2,0);
-    L.Consulta(0).get_nome() == c2.get_nome();
-    L.Consulta(1).get_nome() == c1.get_nome();
+    int n_cursos, n_alunos;
+    scanf("%i %i\n",&n_cursos, &n_alunos);
 
-    L.Adiciona(c3,1);
-    L.Consulta(0).get_nome() == c2.get_nome();
-    L.Consulta(1).get_nome() == c3.get_nome();
-    L.Consulta(2).get_nome() == c1.get_nome();
+    // Lê os cursos
+    for (int i = 0; i < n_cursos; i++){
+        std::string _nome;
+        char _nome_char[100];
+        int _vagas;
 
-    L.Adiciona(c4,3);
-    L.Consulta(0).get_nome() == c2.get_nome();
-    L.Consulta(1).get_nome() == c3.get_nome();
-    L.Consulta(2).get_nome() == c1.get_nome();
-    L.Consulta(3).get_nome() == c4.get_nome();
+        scanf("%[^\n]s",_nome_char);
+        scanf("%i\n",&_vagas);
+        _nome = _nome_char;
+
+        Curso *c = new Curso(_nome,_vagas);
+        L_curso.AdicionaFim(*c);
+    }
+
+    
 
     return 0;
 }

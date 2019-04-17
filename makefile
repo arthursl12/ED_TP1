@@ -51,7 +51,7 @@ $(TESTS): tests/test_%.o : tests/test_%.cpp
 
 comp: $(TGTDIR)
 	$(CC) $(INC) $(CFLAGS) $(OBJDIR) program/$(TARGET).cpp -o $(TGTDIR)
-	@bin/main.exe
+	#@bin/main.exe
 	$(RM) main.gcno
 	$(RM) main.gcda
 
