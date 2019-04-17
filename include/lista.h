@@ -36,6 +36,7 @@ public:
 
     T Consulta(int i);
     bool Vazia();
+    int get_n_elementos();
 };
 
 

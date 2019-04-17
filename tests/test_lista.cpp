@@ -250,3 +250,25 @@ TEST_CASE("ListaEncadeada: Retira"){
     }
 }
 
+TEST_CASE("ListaEncadeada: get_n_elementos"){
+    ListaEncadeada<Candidato> L;
+
+    CHECK(L.Vazia() == true);
+    CHECK(L.get_n_elementos() == 0);
+
+    Candidato c1("Joao da Silva", 765.87,1,23);
+    Candidato c2("Manuel da Silva", 722.87,2,3);
+    Candidato c3("Maria da Silva", 622.87,0,2);
+    Candidato c4("Joana da Silva", 627.83,1,2);
+    Candidato c5("Mario da Silva", 657.93,5,1);
+
+    L.Adiciona(c1,0);
+    CHECK(L.get_n_elementos() == 1);
+    L.Adiciona(c2,0);
+    CHECK(L.get_n_elementos() == 2);
+    L.Adiciona(c3,1);
+    CHECK(L.get_n_elementos() == 3);
+    L.Adiciona(c4,3);
+    CHECK(L.get_n_elementos() == 4);
+}
+
