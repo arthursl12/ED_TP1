@@ -21,7 +21,6 @@ private:
     Celula<T>* primeiro;
     int n_elementos;
 
-    Celula<T>* Pesquisa(int i);
 public:
     ListaEncadeada();
     ~ListaEncadeada();
@@ -35,6 +34,7 @@ public:
     T* Retira(int i);
 
     T Consulta(int i);
+    Celula<T>* Pesquisa(int i);
     bool Vazia();
     int get_n_elementos();
 };

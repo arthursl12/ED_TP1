@@ -32,3 +32,19 @@ double Curso::get_nota_de_corte(){
 int Curso::get_vagas(){
     return this->vagas;
 }
+
+/* Retorna uma cópia do objeto Candidato na 
+posição de índice i da lista de Classificados */
+Candidato Curso::ClassificadosConsulta(int i){
+    return this->classificados.Consulta(i);
+}
+
+/* Retorna uma cópia do objeto Candidato na 
+posição de índice i da lista de Espera */
+Candidato Curso::EsperaConsulta(int i){
+    return this->espera.Consulta(i);
+}
+
+void Curso::Adiciona(Candidato& cand, ListaEncadeada<Curso> l_curso){
+    
+}
