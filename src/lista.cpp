@@ -112,6 +112,37 @@ void ListaEncadeada<T>::Adiciona(T& novo, int i){
     }
 }
 
+template<>
+/* Adiciona um candidato nos cursos desejados, respeitando as regras do SISU */
+void ListaEncadeada<Curso>::Adiciona(Candidato& cand){
+}
+
+template<>
+/* Adiciona um candidato numa lista de Candidatos, respeitando os critérios de 
+ordenação: nota, primeira opção e ordem de chegada */
+void ListaEncadeada<Candidato>::Adiciona(Candidato& cand){
+    
+}
+
+template<>
+/* Procura um Candidato com nota menor ou igual à do Candidato pedido;
+retorna o primeiro candidato com nota menor ou igual
+retorna nullptr se o candidato pedido for o menor */
+Celula<Candidato>* ListaEncadeada<Candidato>::Pesquisa(Candidato& cand){
+    if (this->Vazia() == true)
+        throw std::invalid_argument("Lista Vazia");
+
+    Celula<Candidato>* atual = this->primeiro->prox; // j = 0 (posição 0)
+    for (int j = 1; atual->objeto.get_nota() > cand.get_nota(); j++){    
+        if (j == this->n_elementos){
+            // Chegou no último e a nota ainda é maior, retorna nullptr
+            return nullptr;
+        }
+        atual = atual->prox;
+    } // Encontrar um com a nota igual ou menor
+    return atual;
+}
+
 template<class T>
 /* Retorna true se a lista está vazia, false do contrário */
 bool ListaEncadeada<T>::Vazia(){
@@ -245,6 +276,16 @@ int ListaEncadeada<T>::get_n_elementos(){
     return this->n_elementos;
 }
 
+template<>
+/* Retorna o índice do candidato na lista */
+int ListaEncadeada<Candidato>::get_indice(Candidato& cand){
+    Celula<Candidato>* atual = this->primeiro->prox; // j = 0 (posição 0)
+    int j;
+    for (j = 1; atual->objeto.get_nome() != cand.get_nome() ; j++){
+        atual = atual->prox;
+    } // Encontrar o anterior à posição de interesse
+    return j-1;
+}
 
 
 /* Permite que os seguintes templates sejam válidos, permitindo a compilação */

@@ -28,69 +28,84 @@ TEST_CASE("Curso: getters"){
     CHECK(C2.get_nota_de_corte() == -1);
 }
 
-TEST_CASE("Curso: consulta"){
-    SUBCASE("ClassificadosConsulta"){
-        
-    }
-    SUBCASE("EsperaConsulta"){}
-}
-
 TEST_CASE("Curso: adiciona"){
-    // "Carrega os candidatos"
-    ListaEncadeada<Candidato> L_cand;
-    Candidato c1("Joao da Silva", 765.87,1,0);
-    Candidato c2("Manuel da Silva", 722.87,2,0);
-    Candidato c3("Maria da Silva", 622.87,0,2);
-    Candidato c4("Joana da Silva", 627.83,1,2);
-    Candidato c5("Mario da Silva", 657.93,1,2);
-    Candidato c6("Sergio Osvaldo Felipe",871,1,0);
-    Candidato c7("Lucia Esther Araujo",656.67,0,1);
-    L_cand.AdicionaFim(c1);
-    L_cand.AdicionaFim(c2);
-    L_cand.AdicionaFim(c3);
-    L_cand.AdicionaFim(c4);
-    L_cand.AdicionaFim(c5);
-    L_cand.AdicionaFim(c6);
-    L_cand.AdicionaFim(c7);
+    Candidato c1("Joao da Silva", 765.87,0,1);
+    Candidato c2("Manuel da Silva", 722.87,0,2);
+    Candidato c3("Maria da Silva", 622.87,2,0);
+    Candidato c4("Joana da Silva", 622.87,0,1);
+    Candidato c5("Mario da Silva", 657.93,0,2);
+    Candidato c6("Sergio Osvaldo Felipe",871,0,2);
+    Candidato c7("Lucia Esther Araujo",616.67,0,1);
+    Candidato c8("Roberto da Silva",622.87,0,1);
 
-    // Carrega os cursos
     Curso cur1("Curso1",4);
-    Curso cur2("Curso2",2);
-    Curso cur3("Curso3",4);
-    ListaEncadeada<Curso> L_cursos;
-    L_cursos.AdicionaFim(cur1);
-    L_cursos.AdicionaFim(cur2);
-    L_cursos.AdicionaFim(cur3);
 
-    for (int i = 0; i < L_cand.get_n_elementos(); i++){
-        Candidato* c = &(L_cand.Pesquisa(i)->objeto);
-        int i_curso = c->get_curso_1();
-        L_cursos.Pesquisa(i_curso)->objeto.Adiciona(*c, L_cursos);
-    }
+    // Critério: nota
+    CHECK(cur1.Adiciona(c1,0) == 0);
+    CHECK(cur1.get_nota_de_corte() == 0);
+    CHECK(cur1.ClassificadosConsulta(0).get_nome() == c1.get_nome());
 
-    // Cur1(4): c7,c3,__,__/__
-    // Cur2(2): c6,c1/c5,c4
-    // Cur3(4): c2,c5,c4
+    // Critério: nota
+    CHECK(cur1.Adiciona(c2,0) == 0);
+    CHECK(cur1.get_nota_de_corte() == 0);
+    CHECK(cur1.ClassificadosConsulta(0).get_nome() == c1.get_nome());
+    CHECK(cur1.ClassificadosConsulta(1).get_nome() == c2.get_nome());
 
-    CHECK(L_cursos.Consulta(0).ClassificadosConsulta(0).get_nome() == c7.get_nome());
-    CHECK(L_cursos.Consulta(0).ClassificadosConsulta(1).get_nome() == c3.get_nome());
-    CHECK(L_cursos.Consulta(0).get_nota_de_corte() == 0);
+    // Critério: nota
+    CHECK(cur1.Adiciona(c3,0) == 0);
+    CHECK(cur1.get_nota_de_corte() == 0);
+    CHECK(cur1.ClassificadosConsulta(0).get_nome() == c1.get_nome());
+    CHECK(cur1.ClassificadosConsulta(1).get_nome() == c2.get_nome());
+    CHECK(cur1.ClassificadosConsulta(2).get_nome() == c3.get_nome());
+    
+    // Desempate: prioridade de quem escolheu como primeira opção
+    CHECK(cur1.Adiciona(c4,0) == 0);
+    CHECK(cur1.get_nota_de_corte() == c3.get_nota());
+    CHECK(cur1.ClassificadosConsulta(0).get_nome() == c1.get_nome());
+    CHECK(cur1.ClassificadosConsulta(1).get_nome() == c2.get_nome());
+    CHECK(cur1.ClassificadosConsulta(2).get_nome() == c4.get_nome());
+    CHECK(cur1.ClassificadosConsulta(3).get_nome() == c3.get_nome());
 
-    CHECK(L_cursos.Consulta(1).ClassificadosConsulta(0).get_nome() == c6.get_nome());
-    CHECK(L_cursos.Consulta(1).ClassificadosConsulta(1).get_nome() == c1.get_nome());
-    CHECK(L_cursos.Consulta(1).EsperaConsulta(0).get_nome() == c5.get_nome());
-    CHECK(L_cursos.Consulta(1).EsperaConsulta(1).get_nome() == c4.get_nome());
-    CHECK(L_cursos.Consulta(1).get_nota_de_corte() == c1.get_nota());
+    // Critério: nota
+    CHECK(cur1.Adiciona(c5,0) == 1);
+    CHECK(cur1.get_nota_de_corte() == c4.get_nota());
+    CHECK(cur1.ClassificadosConsulta(0).get_nome() == c1.get_nome());
+    CHECK(cur1.ClassificadosConsulta(1).get_nome() == c2.get_nome());
+    CHECK(cur1.ClassificadosConsulta(2).get_nome() == c5.get_nome());
+    CHECK(cur1.ClassificadosConsulta(3).get_nome() == c4.get_nome());
+    CHECK(cur1.EsperaConsulta(0).get_nome() == c3.get_nome());
 
-    CHECK(L_cursos.Consulta(2).ClassificadosConsulta(0).get_nome() == c2.get_nome());
-    CHECK(L_cursos.Consulta(2).ClassificadosConsulta(1).get_nome() == c5.get_nome());
-    CHECK(L_cursos.Consulta(2).ClassificadosConsulta(2).get_nome() == c4.get_nome());
+    // Critério: nota
+    CHECK(cur1.Adiciona(c6,0) == 1);
+    CHECK(cur1.get_nota_de_corte() == c5.get_nota());
+    CHECK(cur1.ClassificadosConsulta(0).get_nome() == c6.get_nome());
+    CHECK(cur1.ClassificadosConsulta(1).get_nome() == c1.get_nome());
+    CHECK(cur1.ClassificadosConsulta(2).get_nome() == c2.get_nome());
+    CHECK(cur1.ClassificadosConsulta(3).get_nome() == c5.get_nome());
+    CHECK(cur1.EsperaConsulta(0).get_nome() == c4.get_nome());
+    CHECK(cur1.EsperaConsulta(1).get_nome() == c3.get_nome());
+
+    // Critério: nota
+    CHECK(cur1.Adiciona(c7,0) == 2);
+    CHECK(cur1.get_nota_de_corte() == c5.get_nota());
+    CHECK(cur1.ClassificadosConsulta(0).get_nome() == c6.get_nome());
+    CHECK(cur1.ClassificadosConsulta(1).get_nome() == c1.get_nome());
+    CHECK(cur1.ClassificadosConsulta(2).get_nome() == c2.get_nome());
+    CHECK(cur1.ClassificadosConsulta(3).get_nome() == c5.get_nome());
+    CHECK(cur1.EsperaConsulta(0).get_nome() == c4.get_nome());
+    CHECK(cur1.EsperaConsulta(1).get_nome() == c3.get_nome());
+    CHECK(cur1.EsperaConsulta(2).get_nome() == c7.get_nome());
 
 
-
-
-
-
-
-
+    // Desempate: ordem de chegada
+    CHECK(cur1.Adiciona(c8,0) == 2);
+    CHECK(cur1.get_nota_de_corte() == c5.get_nota());
+    CHECK(cur1.ClassificadosConsulta(0).get_nome() == c6.get_nome());
+    CHECK(cur1.ClassificadosConsulta(1).get_nome() == c1.get_nome());
+    CHECK(cur1.ClassificadosConsulta(2).get_nome() == c2.get_nome());
+    CHECK(cur1.ClassificadosConsulta(3).get_nome() == c5.get_nome());
+    CHECK(cur1.EsperaConsulta(0).get_nome() == c4.get_nome());
+    CHECK(cur1.EsperaConsulta(1).get_nome() == c8.get_nome());
+    CHECK(cur1.EsperaConsulta(2).get_nome() == c3.get_nome());
+    CHECK(cur1.EsperaConsulta(3).get_nome() == c7.get_nome());
 }

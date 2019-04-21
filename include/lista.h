@@ -20,23 +20,28 @@ private:
     Celula<T>* ultimo;
     Celula<T>* primeiro;
     int n_elementos;
-
+    
+    
 public:
     ListaEncadeada();
     ~ListaEncadeada();
 
+    Celula<T>* Pesquisa(int i);
+    Celula<Candidato>* Pesquisa(Candidato& cand);
+
     void AdicionaInicio(T& novo);
     void Adiciona(T& novo, int i);
     void AdicionaFim(T& novo);
+    void Adiciona(Candidato& cand);
     
     T* RetiraUltimo();
     T* RetiraPrimeiro();
     T* Retira(int i);
 
     T Consulta(int i);
-    Celula<T>* Pesquisa(int i);
     bool Vazia();
     int get_n_elementos();
+    int get_indice(Candidato& cand);
 };
 
 

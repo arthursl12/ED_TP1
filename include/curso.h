@@ -24,8 +24,7 @@ public:
     Candidato ClassificadosConsulta(int i);
     Candidato EsperaConsulta(int i);
 
-    // classe invejosa --v
-    void Adiciona(Candidato& cand, ListaEncadeada<Curso> l_curso);
+    int Adiciona(Candidato& cand, int i_curso);
 };
 
 
