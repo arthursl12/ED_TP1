@@ -17,7 +17,6 @@ Candidato::Candidato(std::string _nome, double _nota, int _i_curso1, int _i_curs
     }
 }
 
-
 /* GETTERS */
 /* Retorna o nome do candidato */
 std::string Candidato::get_nome(){

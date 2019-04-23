@@ -10,7 +10,7 @@ struct Celula{
     Celula* ant;
     
     // Construtor inicializador para Celula_str
-    Celula(){objeto = nullptr; prox = 0; ant = 0;}
+    Celula(){objeto = nullptr; prox = nullptr; ant = nullptr;}
     ~Celula(){if (objeto != nullptr) delete objeto;}
 };
 
@@ -46,6 +46,8 @@ public:
     bool Vazia();
     int get_n_elementos();
     int get_indice(Candidato* cand);
+
+    void teste();
 };
 
 

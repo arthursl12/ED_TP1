@@ -77,30 +77,57 @@ void print_lista(ListaEncadeada<Candidato>& L_aluno){
 
 
 int main(int argc, char* argv[]){
-    Curso cur1("Curso1",4);
-    Curso cur2("Curso2",2);
-    Curso cur3("Curso3",4);
+    Curso* cur1 = new Curso("Curso1",4);
+    Curso* cur2 = new Curso("Curso2",2);
+    Curso* cur3 = new Curso("Curso3",4);
     ListaEncadeada<Curso> L;
-    L.AdicionaFim(cur1);
-    L.AdicionaFim(cur2);
-    L.AdicionaFim(cur3);
+    
+    L.AdicionaFim(*cur1);
+    L.AdicionaFim(*cur2);
+    L.AdicionaFim(*cur3);
+    
+    //Curso c = L.Consulta(0);
+    
+    //std::cout << L.proximo()->get_nome() << std::endl;
+    //std::cout << L.proximo()->get_nome() << std::endl;
+    
+    Candidato *c1 = new Candidato("Joao da Silva", 765.87,1,23);
+    Candidato *c2 = new Candidato("Manuel da Silva", 722.87,2,3);
+    //Candidato *c3 = new Candidato("Maria da Silva", 622.87,0,2);
+    //c.AdicionaFim(*c1);
+    //c.AdicionaFim(*c2);
 
-    std::cout << L._primeiro()->get_nome();
-    std::cout << L.proximo()->get_nome();
-    std::cout << L.proximo()->get_nome();
+    
+    L._primeiro()->AdicionaFim(*c1);
+    std::cout << "Alo" << std::endl;
+    L.proximo()->AdicionaFim(*c2);
+    std::cout << "Alo2" << std::endl;
+    
+    Curso *c = L._primeiro();
+    std::cout << c->get_nome() << std::endl;
+    //L.proximo()->AdicionaFim(*c3);
+    std::cout << "Alo4" << std::endl;
+    std::cout << "Alo5" << std::endl;
+    std::cout << L.proximo()->Classif_primeiro()->get_nome() << std::endl;
+    std::cout << "Alo6" << std::endl;
+    std::cout << "Alo7" << std::endl;
+    //std::cout << L.proximo()->Classifproximo()->get_nome() << std::endl;
+    std::cout << "Alo8" << std::endl;
+    
 
-    Candidato c1("Joao da Silva", 765.87,1,23);
-    Candidato c2("Manuel da Silva", 722.87,2,3);
-    Candidato c3("Maria da Silva", 622.87,0,2);
-    L._primeiro()->AdicionaFim(c1);
-    L.proximo()->AdicionaFim(c2);
+    std::cout << c->ClassificadosConsulta(0).get_nome() << std::endl;
+    std::cout << c->ClassificadosConsulta(1).get_nome() << std::endl;
 
-    L._primeiro();
-    L.proximo()->AdicionaFim(c3);
-    L._primeiro();
-    std::cout << L.proximo()->Classif_primeiro()->get_nome();
-    L._primeiro();
-    std::cout << L.proximo()->Classifproximo()->get_nome();
+    delete c1;
+    delete c2;
+    //delete c3;
+    
+
+    delete cur1;
+    delete cur2;
+    delete cur3;
+    
+
 
     return 0;
 }

@@ -33,6 +33,7 @@ ListaEncadeada<T>::~ListaEncadeada(){
     }
     this->primeiro = nullptr;
     this->ultimo = nullptr;
+    this->pos = nullptr;
 }
 
 template<class T>
@@ -291,7 +292,7 @@ int ListaEncadeada<Candidato>::get_indice(Candidato* cand){
 template <class T> 
 T* ListaEncadeada<T>::_primeiro() {
     this->pos = this->primeiro; 
-    return this->proximo();
+    return this->pos->prox->objeto;
 }
 
 template <class T> 
@@ -301,6 +302,11 @@ T* ListaEncadeada<T>::proximo() {
         return nullptr; 
     else 
         return this->pos->objeto;
+}
+
+template<>
+void ListaEncadeada<Curso>::teste(){
+    
 }
 
 

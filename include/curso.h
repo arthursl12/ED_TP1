@@ -10,11 +10,12 @@ private:
     std::string nome;
     double nota_de_corte;
     int vagas;
-    ListaEncadeada<Candidato> classificados;
-    ListaEncadeada<Candidato> espera;
+    ListaEncadeada<Candidato>* classificados;
+    ListaEncadeada<Candidato>* espera;
 
 public:
     Curso(std::string _nome, int _vagas);
+    ~Curso();
 
     std::string get_nome();
     double get_nota_de_corte();
