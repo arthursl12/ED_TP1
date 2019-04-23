@@ -11,6 +11,9 @@ ListaEncadeada<T>::ListaEncadeada(){
     this->primeiro = cabeca;
     this->ultimo = this->primeiro;
 
+    /* Define o iterador */
+    this->pos = this->primeiro;
+
     this->primeiro->prox = nullptr;
     this->primeiro->ant = nullptr;
     this->n_elementos = 0;
@@ -285,9 +288,19 @@ int ListaEncadeada<Candidato>::get_indice(Candidato* cand){
     return j-1;
 }
 
-template<class T>
-T& ListaEncadeada<T>::operator[] (int index){
-    return *Pesquisa(index)->objeto;
+template <class T> 
+T* ListaEncadeada<T>::_primeiro() {
+    this->pos = this->primeiro; 
+    return this->proximo();
+}
+
+template <class T> 
+T* ListaEncadeada<T>::proximo() {
+    this->pos = this->pos->prox;
+    if (this->pos == nullptr) 
+        return nullptr; 
+    else 
+        return this->pos->objeto;
 }
 
 

@@ -20,11 +20,17 @@ public:
     double get_nota_de_corte();
     int get_vagas();
 
-    Candidato ClassificadosConsulta(int i);
-    Candidato EsperaConsulta(int i);
+    Candidato* Classif_primeiro();
+    Candidato* Classifproximo();
+    Candidato* Espera_primeiro();
+    Candidato* Esperaproximo();
 
     int Adiciona(Candidato& cand, int i_curso);
     void AdicionaFim(Candidato& cand);
+
+    Candidato ClassificadosConsulta(int i);
+    Candidato EsperaConsulta(int i);
+    
 };
 
 

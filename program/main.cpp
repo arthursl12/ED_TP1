@@ -77,43 +77,33 @@ void print_lista(ListaEncadeada<Candidato>& L_aluno){
 
 
 int main(int argc, char* argv[]){
-    Candidato c1("Joao da Silva", 765.87,0,1);
-    Candidato c2("Manuel da Silva", 722.87,0,2);
-    Candidato c3("Maria da Silva", 622.87,2,0);
-    Candidato c4("Joana da Silva", 622.87,0,1);
-    Candidato c5("Mario da Silva", 657.93,0,2);
-    Candidato c6("Sergio Osvaldo Felipe",871,0,2);
-    Candidato c7("Lucia Esther Araujo",616.67,0,1);
-    Candidato c8("Roberto da Silva",622.87,0,1);
-
     Curso cur1("Curso1",4);
+    Curso cur2("Curso2",2);
+    Curso cur3("Curso3",4);
+    ListaEncadeada<Curso> L;
+    L.AdicionaFim(cur1);
+    L.AdicionaFim(cur2);
+    L.AdicionaFim(cur3);
 
-    // Critério: nota
-    cur1.Adiciona(c1,0);
+    std::cout << L._primeiro()->get_nome();
+    std::cout << L.proximo()->get_nome();
+    std::cout << L.proximo()->get_nome();
 
-    // Critério: nota
-    cur1.Adiciona(c2,0);
+    Candidato c1("Joao da Silva", 765.87,1,23);
+    Candidato c2("Manuel da Silva", 722.87,2,3);
+    Candidato c3("Maria da Silva", 622.87,0,2);
+    L._primeiro()->AdicionaFim(c1);
+    L.proximo()->AdicionaFim(c2);
 
-    // Critério: nota
-    cur1.Adiciona(c3,0);
-    
-    
-    // Desempate: prioridade de quem escolheu como primeira opção
-    cur1.Adiciona(c4,0);
-   
+    std::cout << L._primeiro()->Classif_primeiro()->get_nome();
+    std::cout << L.proximo()->Classif_primeiro()->get_nome();
 
-    // Critério: nota
-    cur1.Adiciona(c5,0);
-   
-
-    // Critério: nota
-    cur1.Adiciona(c6,0);
-
-    // Critério: nota
-    cur1.Adiciona(c7,0);
-
-    // Desempate: ordem de chegada
-    cur1.Adiciona(c8,0);
+    L._primeiro();
+    L.proximo()->AdicionaFim(c3);
+    L._primeiro();
+    std::cout << L.proximo()->Classif_primeiro()->get_nome();
+    L._primeiro();
+    std::cout << L.proximo()->Classifproximo()->get_nome();
 
     return 0;
 }

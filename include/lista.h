@@ -19,6 +19,7 @@ class ListaEncadeada{
 private:
     Celula<T>* ultimo;
     Celula<T>* primeiro;
+    Celula<T>* pos; //iterador
     int n_elementos;
     
     
@@ -28,7 +29,9 @@ public:
 
     Celula<T>* Pesquisa(int i);
     Celula<Candidato>* Pesquisa(Candidato& cand);
-    T& operator[](int index);
+    
+    T* _primeiro();
+    T* proximo();
 
     void AdicionaInicio(T& novo);
     void Adiciona(T& novo, int i);

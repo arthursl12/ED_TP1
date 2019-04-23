@@ -59,8 +59,6 @@ int desempatador(Candidato &cand, Candidato* atual, int i_curso){
     }
 }
 
-
-
 /* Adiciona um candidato ao referido Curso, pela ordem de nota;
 Retorna 0 se foi Classificado e não alterou a lista de espera;
 Retorna 1 se foi Classificado e "empurrou" alguém para primeiro na lista de espera;
@@ -192,4 +190,17 @@ int Curso::Adiciona(Candidato& cand, int i_curso){
 
 void Curso::AdicionaFim(Candidato& cand){
     this->classificados.AdicionaFim(cand);
+}
+
+Candidato* Curso::Classif_primeiro(){
+    return classificados._primeiro();
+}
+Candidato* Curso::Classifproximo(){
+    return classificados.proximo();
+}
+Candidato* Curso::Espera_primeiro(){
+    return espera._primeiro();
+}
+Candidato* Curso::Esperaproximo(){
+    return espera.proximo();
 }
