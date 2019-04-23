@@ -42,7 +42,7 @@ public:
     T Consulta(int i);
     bool Vazia();
     int get_n_elementos();
-    int get_indice(Candidato& cand);
+    int get_indice(Candidato* cand);
 };
 
 

@@ -42,9 +42,9 @@ Candidato Curso::EsperaConsulta(int i){
 /* Executa um desempate entre os candidatos 'cand' e 'atual', sendo que 'atual'
 já está na lista e 'cand' será colocado nela; Retorna 0 se o candidato 'atual' 
 tem prioridade; Retorna 1 se o candidato 'cand' tem prioridade */
-int desempatador(Candidato &cand, Candidato &atual, int i_curso){
+int desempatador(Candidato &cand, Candidato* atual, int i_curso){
     int i1_cand = cand.get_curso_1();
-    int i1_atual = atual.get_curso_1();
+    int i1_atual = atual->get_curso_1();
     if (i1_cand == i_curso && i1_atual != i_curso){
         /* Candidato novo tem prioridade (primeira opção de curso) */
         return 1;
@@ -86,9 +86,9 @@ int Curso::Adiciona(Candidato& cand, int i_curso){
                     this->espera.AdicionaFim(cand);
                     return 2;
                 }else{
-                    if (ptr->objeto.get_nota() == cand.get_nota()){
+                    if (ptr->objeto->get_nota() == cand.get_nota()){
                         /* Há um empate de notas dentro de Espera */
-                        while (ptr->objeto.get_nota() == cand.get_nota()){
+                        while (ptr->objeto->get_nota() == cand.get_nota()){
                             /* Loop: caso haja mais de um candidato empatado */
                             int res = desempatador(cand,ptr->objeto,i_curso);
                             
@@ -126,12 +126,12 @@ int Curso::Adiciona(Candidato& cand, int i_curso){
                 return 0;
             }
         }else{
-            if (ptr->objeto.get_nota() == cand.get_nota()){
+            if (ptr->objeto->get_nota() == cand.get_nota()){
                 /* Há um empate de notas dentro dos Classificados */
-                std::cout << "OBJ : " << ptr->objeto.get_nota() << " :: Cand: " << cand.get_nota() << std::endl;
-                while (ptr->objeto.get_nota() == cand.get_nota()){
+                std::cout << "OBJ : " << ptr->objeto->get_nota() << " :: Cand: " << cand.get_nota() << std::endl;
+                while (ptr->objeto->get_nota() == cand.get_nota()){
                     /* Loop: caso haja mais de um candidato empatado */
-                    std::cout << "OBJ : " << ptr->objeto.get_nota() << " :: Cand: " << cand.get_nota() << std::endl;
+                    std::cout << "OBJ : " << ptr->objeto->get_nota() << " :: Cand: " << cand.get_nota() << std::endl;
                     int res = desempatador(cand,ptr->objeto,i_curso);
                     
                     if (res == 1){

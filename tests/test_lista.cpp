@@ -298,20 +298,24 @@ TEST_CASE("ListaEncadeada<Candidato>: pesquisa"){
 TEST_CASE("ListaEncadeada<Candidato>: get_indice"){
     ListaEncadeada<Candidato> L;
 
-    Candidato c1("Joao da Silva", 765.87,1,23);
-    Candidato c2("Manuel da Silva", 722.87,2,3);
-    Candidato c3("Maria da Silva", 622.87,0,2);
-    Candidato c4("Joana da Silva", 627.83,1,2);
-    Candidato c5("Mario da Silva", 657.93,5,1);
+    Candidato* c1 = new Candidato("Joao da Silva", 765.87,1,23);
+    Candidato* c2 = new Candidato("Manuel da Silva", 722.87,2,3);
+    Candidato* c3 = new Candidato("Maria da Silva", 622.87,0,2);
+    Candidato* c4 = new Candidato("Joana da Silva", 627.83,1,2);
 
-    L.Adiciona(c1,0);
+    L.Adiciona(*c1,0);
     CHECK(L.get_indice(c1) == 0);
-    L.Adiciona(c2,0);
+    L.Adiciona(*c2,0);
     CHECK(L.get_indice(c2) == 0);
-    L.Adiciona(c3,1);
+    L.Adiciona(*c3,1);
     CHECK(L.get_indice(c3) == 1);
-    L.Adiciona(c4,3);
+    L.Adiciona(*c4,3);
     CHECK(L.get_indice(c4) == 3);
+
+    delete c1;
+    delete c2;
+    delete c3;
+    delete c4;
 }
 /*
 TEST_CASE("ListaEncadeada: operador[]"){
@@ -410,7 +414,7 @@ TEST_CASE("ListaEncadeada<Curso>: adiciona"){
     L_cursos.AdicionaFim(cur3);
 
     for (int i = 0; i < L_cand.get_n_elementos(); i++){
-        Candidato* c = &(L_cand.Pesquisa(i)->objeto);
+        Candidato* c  = new Candidato= &(L_cand.Pesquisa(i)->objeto);
         int i_curso = c->get_curso_1();
         L_cursos.Pesquisa(i_curso)->objeto->Adiciona(*c);
     }

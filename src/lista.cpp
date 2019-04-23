@@ -276,10 +276,10 @@ int ListaEncadeada<T>::get_n_elementos(){
 
 template<>
 /* Retorna o índice do candidato na lista */
-int ListaEncadeada<Candidato>::get_indice(Candidato& cand){
+int ListaEncadeada<Candidato>::get_indice(Candidato* cand){
     Celula<Candidato>* atual = this->primeiro->prox; // j = 0 (posição 0)
     int j;
-    for (j = 1; atual->objeto->get_nome() != cand.get_nome() ; j++){
+    for (j = 1; atual->objeto->get_nome() != cand->get_nome() ; j++){
         atual = atual->prox;
     } // Encontrar o anterior à posição de interesse
     return j-1;
