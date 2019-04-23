@@ -12,20 +12,11 @@ TEST_CASE("Curso: construtor com entradas invalidas"){
     CHECK_NOTHROW(Curso("curso", 0));
 }
 
-TEST_CASE("Curso: construtor vazio"){
-    CHECK_NOTHROW(Curso());
-}
-
 TEST_CASE("Curso: getters"){
     Curso C("curso", 32);
     CHECK(C.get_nome() == "curso");
     CHECK(C.get_vagas() == 32);
     CHECK(C.get_nota_de_corte() == 0.0);
-
-    Curso C2;
-    CHECK(C2.get_nome() == "");
-    CHECK(C2.get_vagas() == -1);
-    CHECK(C2.get_nota_de_corte() == -1);
 }
 
 TEST_CASE("Curso: adiciona"){

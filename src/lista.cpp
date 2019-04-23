@@ -7,10 +7,10 @@ template<class T>
 /* Cria uma lista vazia, apenas com a célula cabeça */
 ListaEncadeada<T>::ListaEncadeada(){
     /* Cria célula-cabeça */
-    Celula<T> *cabeca = (Celula<T>*) malloc(sizeof(Celula<T>));
+    Celula<T> *cabeca = new Celula<T>();;
     this->primeiro = cabeca;
-
     this->ultimo = this->primeiro;
+
     this->primeiro->prox = nullptr;
     this->primeiro->ant = nullptr;
     this->n_elementos = 0;
@@ -19,13 +19,8 @@ ListaEncadeada<T>::ListaEncadeada(){
 template<class T>
 /* Destrutor da lista, libera a memória alocada */
 ListaEncadeada<T>::~ListaEncadeada(){
-    Celula<T>* atual;
-    Celula<T>* proximo;
-
-    // Liberar a célula-cabeça
-    atual = this->primeiro;
-    proximo = this->primeiro->prox;
-    free(atual); 
+    Celula<T>* atual = this->primeiro;
+    Celula<T>* proximo = atual->prox;
 
     // Liberar as células seguintes
     while (proximo != nullptr){
@@ -41,8 +36,8 @@ template<class T>
 /* Adiciona o objeto no início da lista */
 void ListaEncadeada<T>::AdicionaInicio(T& novo){
     // Cria a nova célula
-    Celula<T>* nova_celula;
-    nova_celula = new Celula<T>(novo);
+    Celula<T>* nova_celula = new Celula<T>();
+    nova_celula->objeto = new T(novo);
 
     // Coloca ela no lugar da primeira célula (depois da cabeça, obviamente)
     nova_celula->prox = this->primeiro->prox;
@@ -68,8 +63,8 @@ template<class T>
 /* Adiciona o objeto no fim da lista */
 void ListaEncadeada<T>::AdicionaFim(T& novo){
     // Cria a nova célula
-    Celula<T>* nova_celula;
-    nova_celula = new Celula<T>(novo);
+    Celula<T>* nova_celula = new Celula<T>();
+    nova_celula->objeto = new T(novo);
 
     // Coloca no último lugar
     nova_celula->prox = nullptr;
@@ -96,8 +91,8 @@ void ListaEncadeada<T>::Adiciona(T& novo, int i){
         this->AdicionaFim(novo);
     }else{
         // Cria a nova célula
-        Celula<T>* nova_celula;
-        nova_celula = new Celula<T>(novo);
+        Celula<T>* nova_celula = new Celula<T>();
+        nova_celula->objeto = new T(novo);
         nova_celula->prox = nullptr;
         nova_celula->ant = nullptr;
 
@@ -133,7 +128,7 @@ Celula<Candidato>* ListaEncadeada<Candidato>::Pesquisa(Candidato& cand){
         throw std::invalid_argument("Lista Vazia");
 
     Celula<Candidato>* atual = this->primeiro->prox; // j = 0 (posição 0)
-    for (int j = 1; atual->objeto.get_nota() > cand.get_nota(); j++){    
+    for (int j = 1; atual->objeto->get_nota() > cand.get_nota(); j++){    
         if (j == this->n_elementos){
             // Chegou no último e a nota ainda é maior, retorna nullptr
             return nullptr;
@@ -152,7 +147,7 @@ bool ListaEncadeada<T>::Vazia(){
 template<class T>
 /* Retorna uma cópia do objeto na posição de índice i */
 T ListaEncadeada<T>::Consulta(int i){
-    return this->Pesquisa(i)->objeto;
+    return *this->Pesquisa(i)->objeto;
 }
 
 template<class T>
@@ -205,8 +200,9 @@ T* ListaEncadeada<T>::RetiraUltimo(){
     // Decrementa o contador
     this->n_elementos--;
 
-    T* c = new T(fim->objeto);
-    delete (fim);
+    T *c = fim->objeto;
+    fim->objeto = nullptr;
+    delete fim;
     return c;
 }
 
@@ -234,8 +230,9 @@ T* ListaEncadeada<T>::RetiraPrimeiro(){
     // Decrementa o contador
     this->n_elementos--;
 
-    T* c = new T(eliminar->objeto);
-    delete (eliminar);
+    T *c = eliminar->objeto;
+    eliminar->objeto = nullptr;
+    delete eliminar;
     return c;
 }
 
@@ -264,8 +261,9 @@ T* ListaEncadeada<T>::Retira(int i){
         // Decrementa o contador
         this->n_elementos--;
 
-        T *c = new T(eliminar->objeto);
-        delete(eliminar);
+        T *c = eliminar->objeto;
+        eliminar->objeto = nullptr;
+        delete eliminar;
         return c;
     }
 }
@@ -281,10 +279,15 @@ template<>
 int ListaEncadeada<Candidato>::get_indice(Candidato& cand){
     Celula<Candidato>* atual = this->primeiro->prox; // j = 0 (posição 0)
     int j;
-    for (j = 1; atual->objeto.get_nome() != cand.get_nome() ; j++){
+    for (j = 1; atual->objeto->get_nome() != cand.get_nome() ; j++){
         atual = atual->prox;
     } // Encontrar o anterior à posição de interesse
     return j-1;
+}
+
+template<class T>
+T& ListaEncadeada<T>::operator[] (int index){
+    return *Pesquisa(index)->objeto;
 }
 
 

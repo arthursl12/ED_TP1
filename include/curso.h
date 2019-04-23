@@ -15,7 +15,6 @@ private:
 
 public:
     Curso(std::string _nome, int _vagas);
-    Curso();
 
     std::string get_nome();
     double get_nota_de_corte();
@@ -25,6 +24,7 @@ public:
     Candidato EsperaConsulta(int i);
 
     int Adiciona(Candidato& cand, int i_curso);
+    void AdicionaFim(Candidato& cand);
 };
 
 

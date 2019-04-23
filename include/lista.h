@@ -5,13 +5,13 @@
 
 template<class T>
 struct Celula{
-    T objeto;
+    T* objeto;
     Celula* prox;
     Celula* ant;
     
     // Construtor inicializador para Celula_str
-    Celula(T _obj)
-    :objeto(_obj){}
+    Celula(){objeto = nullptr; prox = 0; ant = 0;}
+    ~Celula(){if (objeto != nullptr) delete objeto;}
 };
 
 template<class T>
@@ -28,6 +28,7 @@ public:
 
     Celula<T>* Pesquisa(int i);
     Celula<Candidato>* Pesquisa(Candidato& cand);
+    T& operator[](int index);
 
     void AdicionaInicio(T& novo);
     void Adiciona(T& novo, int i);

@@ -11,13 +11,6 @@ Curso::Curso(std::string _nome, int _vagas)
     this->vagas = _vagas;
 }
 
-/* Construtor Vazio */
-Curso::Curso(){
-    this->nome = "";
-    this->vagas = -1;
-    this->nota_de_corte = -1;
-}
-
 /* Getters */
 /* Retorna a string com o nome do curso */
 std::string Curso::get_nome(){
@@ -65,6 +58,7 @@ int desempatador(Candidato &cand, Candidato &atual, int i_curso){
         return 0;
     }
 }
+
 
 
 /* Adiciona um candidato ao referido Curso, pela ordem de nota;
@@ -194,4 +188,8 @@ int Curso::Adiciona(Candidato& cand, int i_curso){
             }
         }        
     }
+}
+
+void Curso::AdicionaFim(Candidato& cand){
+    this->classificados.AdicionaFim(cand);
 }
