@@ -17,6 +17,14 @@ Candidato::Candidato(std::string _nome, double _nota, int _i_curso1, int _i_curs
     }
 }
 
+Candidato::Candidato(){
+    this->nome = "";
+    this->nota = -1;
+    this->i_curso1 = -1;
+    this->i_curso2 = -1;
+}
+
+
 
 /* GETTERS */
 /* Retorna o nome do candidato */

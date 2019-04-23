@@ -25,6 +25,10 @@ public:
     Candidato EsperaConsulta(int i);
 
     int Adiciona(Candidato& cand, int i_curso);
+
+    Candidato& ArrumaEspera(int i_curso, int situacao);
+
+    void print_curso();
 };
 
 

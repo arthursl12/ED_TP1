@@ -6,6 +6,7 @@
 #include "lista.h"
 #include "curso.h"
 
+/*
 void print_curso(ListaEncadeada<Curso>& L_curso){
     for (int i = 0; i < L_curso.get_n_elementos(); i++){
         Curso c = L_curso.Consulta(i);
@@ -73,44 +74,45 @@ void print_lista(ListaEncadeada<Candidato>& L_aluno){
     for (int i = 0; i < L_aluno.get_n_elementos(); i++){
         std::cout << i+1 << " - " << L_aluno.Consulta(i).get_nome() << std::endl;
     }
-}
+}*/
 
 
 int main(int argc, char* argv[]){
-    ListaEncadeada<Candidato> L_alunos;
-    Candidato c1("Joao da Silva", 765.87,0,1);
-    Candidato c2("Manuel da Silva", 722.87,0,2);
-    Candidato c3("Maria da Silva", 622.87,2,0);
-    Candidato c4("Joana da Silva", 622.87,0,1);
-    Candidato c5("Mario da Silva", 657.93,0,2);
-    Candidato c6("Sergio Osvaldo Felipe",871,0,2);
-    Candidato c7("Lucia Esther Araujo",616.67,0,1);
-    Candidato c8("Roberto da Silva",622.87,0,1);
+    // "Carrega os candidatos"
+    ListaEncadeada<Candidato> L_cand;
+    Candidato c1("Joao da Silva", 765.87,1,0);
+    Candidato c2("Manuel da Silva", 722.87,2,0);
+    Candidato c3("Maria da Silva", 622.87,0,2);
+    Candidato c4("Joana da Silva", 627.83,1,2);
+    Candidato c5("Mario da Silva", 657.93,1,2);
+    Candidato c6("Sergio Osvaldo Felipe",871,1,0);
+    Candidato c7("Lucia Esther Araujo",656.67,0,1);
+    std::cout << "OK1" << std::endl;
 
+    // Carrega os cursos
     Curso cur1("Curso1",4);
+    Curso cur2("Curso2",2);
+    Curso cur3("Curso3",4);
+    ListaEncadeada<Curso> L_cursos;
+    L_cursos.AdicionaFim(cur1);
+    L_cursos.AdicionaFim(cur2);
+    L_cursos.AdicionaFim(cur3);
+    std::cout << "OK2" << std::endl;
 
-    // Critério: nota
-    cur1.Adiciona(c1,0);
+    L_cursos.Adiciona(c1);
+    L_cursos.Adiciona(c2);
+    /*
+    L_cursos.Adiciona(c3);
+    L_cursos.Adiciona(c4);
+    L_cursos.Adiciona(c5);
+    L_cursos.Adiciona(c6);
+    L_cursos.Adiciona(c7);*/
 
-    // Critério: nota
-    cur1.Adiciona(c2,0);
-
-    // Critério: nota
-    cur1.Adiciona(c3,0);
-    
-    // Desempate: prioridade de quem escolheu como primeira opção
-    cur1.Adiciona(c4,0);
-    print_lista(cur1)
-
-    // Critério: nota
-    cur1.Adiciona(c5,0);
-
-    // Critério: nota
-    cur1.Adiciona(c6,0);
-
-    // Desempate: ordem de chegada
-    cur1.Adiciona(c8,0);
-
+    // Cur1(4): c7,c3,__,__/__
+    // Cur2(2): c6,c1/c5,c4
+    // Cur3(4): c2,c5,c4
+    std::cout << "OK3" << std::endl;
+    L_cursos.imprime();
     return 0;
 }
 

@@ -1,6 +1,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 #include "curso.h"
+#include "candidato.h"
 
 TEST_CASE("Curso: construtor"){
     CHECK_NOTHROW(Curso("Teste",2));

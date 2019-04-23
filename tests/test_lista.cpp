@@ -21,9 +21,9 @@ TEST_CASE("ListaEncadeada: Consulta"){
         ListaEncadeada<Candidato> L;
 
         CHECK(L.Vazia() == true);
-        CHECK_THROWS_AS(L.Consulta(0), std::invalid_argument);
-        CHECK_THROWS_AS(L.Consulta(-1), std::invalid_argument);
-        CHECK_THROWS_AS(L.Consulta(10), std::invalid_argument);
+        CHECK_THROWS_AS(L[0], std::invalid_argument);
+        CHECK_THROWS_AS(L[-1], std::invalid_argument);
+        CHECK_THROWS_AS(L[10], std::invalid_argument);
     }
     SUBCASE("Lista Preenchida - Impar"){
         Candidato c1("Joao da Silva", 765.87,1,23);
@@ -40,14 +40,14 @@ TEST_CASE("ListaEncadeada: Consulta"){
         L.AdicionaFim(c5);
 
         CHECK(L.Vazia() == false);
-        CHECK(L.Consulta(4).get_nome() == c5.get_nome());
-        CHECK(L.Consulta(3).get_nome() == c4.get_nome());
-        CHECK(L.Consulta(2).get_nome() == c3.get_nome());
-        CHECK(L.Consulta(1).get_nome() == c2.get_nome());
-        CHECK(L.Consulta(0).get_nome() == c1.get_nome());
-        CHECK_THROWS_AS(L.Consulta(-1), std::out_of_range);
-        CHECK_THROWS_AS(L.Consulta(5), std::out_of_range);
-        CHECK_THROWS_AS(L.Consulta(7), std::out_of_range);
+        CHECK(L[4].get_nome() == c5.get_nome());
+        CHECK(L[3].get_nome() == c4.get_nome());
+        CHECK(L[2].get_nome() == c3.get_nome());
+        CHECK(L[1].get_nome() == c2.get_nome());
+        CHECK(L[0].get_nome() == c1.get_nome());
+        CHECK_THROWS_AS(L[-1], std::out_of_range);
+        CHECK_THROWS_AS(L[5], std::out_of_range);
+        CHECK_THROWS_AS(L[7], std::out_of_range);
     }
     SUBCASE("Lista Preenchida - Par"){
         Candidato c1("Joao da Silva", 765.87,1,23);
@@ -66,15 +66,15 @@ TEST_CASE("ListaEncadeada: Consulta"){
         L.AdicionaFim(c6);
 
         CHECK(L.Vazia() == false);
-        CHECK(L.Consulta(5).get_nome() == c6.get_nome());
-        CHECK(L.Consulta(4).get_nome() == c5.get_nome());
-        CHECK(L.Consulta(3).get_nome() == c4.get_nome());
-        CHECK(L.Consulta(2).get_nome() == c3.get_nome());
-        CHECK(L.Consulta(1).get_nome() == c2.get_nome());
-        CHECK(L.Consulta(0).get_nome() == c1.get_nome());
-        CHECK_THROWS_AS(L.Consulta(-1), std::out_of_range);
-        CHECK_THROWS_AS(L.Consulta(6), std::out_of_range);
-        CHECK_THROWS_AS(L.Consulta(10), std::out_of_range);
+        CHECK(L[5].get_nome() == c6.get_nome());
+        CHECK(L[4].get_nome() == c5.get_nome());
+        CHECK(L[3].get_nome() == c4.get_nome());
+        CHECK(L[2].get_nome() == c3.get_nome());
+        CHECK(L[1].get_nome() == c2.get_nome());
+        CHECK(L[0].get_nome() == c1.get_nome());
+        CHECK_THROWS_AS(L[-1], std::out_of_range);
+        CHECK_THROWS_AS(L[6], std::out_of_range);
+        CHECK_THROWS_AS(L[10], std::out_of_range);
     }
 }
 
@@ -89,17 +89,17 @@ TEST_CASE("ListaEncadeada: Adiciona"){
         ListaEncadeada<Candidato> L;
         L.AdicionaInicio(c1);
         CHECK(L.Vazia() == false);
-        CHECK(L.Consulta(0).get_nome() == c1.get_nome());
+        CHECK(L[0].get_nome() == c1.get_nome());
 
         L.AdicionaInicio(c2);
         L.AdicionaInicio(c3);
         L.AdicionaInicio(c4);
         L.AdicionaInicio(c5);
-        CHECK(L.Consulta(0).get_nome() == c5.get_nome());
-        CHECK(L.Consulta(1).get_nome() == c4.get_nome());
-        CHECK(L.Consulta(2).get_nome() == c3.get_nome());
-        CHECK(L.Consulta(3).get_nome() == c2.get_nome());
-        CHECK(L.Consulta(4).get_nome() == c1.get_nome());
+        CHECK(L[0].get_nome() == c5.get_nome());
+        CHECK(L[1].get_nome() == c4.get_nome());
+        CHECK(L[2].get_nome() == c3.get_nome());
+        CHECK(L[3].get_nome() == c2.get_nome());
+        CHECK(L[4].get_nome() == c1.get_nome());
     }
     SUBCASE("Adiciona ao último"){
         Candidato c1("Joao da Silva", 765.87,1,23);
@@ -109,12 +109,12 @@ TEST_CASE("ListaEncadeada: Adiciona"){
         ListaEncadeada<Candidato> L;
 
         L.AdicionaFim(c4);
-        CHECK(L.Consulta(0).get_nome() == c4.get_nome());
+        CHECK(L[0].get_nome() == c4.get_nome());
 
         L.AdicionaInicio(c1);
         L.AdicionaInicio(c2);
         L.AdicionaFim(c3);
-        CHECK(L.Consulta(3).get_nome() == c3.get_nome());
+        CHECK(L[3].get_nome() == c3.get_nome());
     }
     SUBCASE("Adiciona no índice i"){
         Candidato c1("Joao da Silva", 765.87,1,23);
@@ -125,22 +125,22 @@ TEST_CASE("ListaEncadeada: Adiciona"){
         ListaEncadeada<Candidato> L;
 
         L.Adiciona(c1,0);
-        CHECK(L.Consulta(0).get_nome() == c1.get_nome());
+        CHECK(L[0].get_nome() == c1.get_nome());
 
         L.Adiciona(c2,0);
-        CHECK(L.Consulta(0).get_nome() == c2.get_nome());
-        CHECK(L.Consulta(1).get_nome() == c1.get_nome());
+        CHECK(L[0].get_nome() == c2.get_nome());
+        CHECK(L[1].get_nome() == c1.get_nome());
 
         L.Adiciona(c3,1);
-        CHECK(L.Consulta(0).get_nome() == c2.get_nome());
-        CHECK(L.Consulta(1).get_nome() == c3.get_nome());
-        CHECK(L.Consulta(2).get_nome() == c1.get_nome());
+        CHECK(L[0].get_nome() == c2.get_nome());
+        CHECK(L[1].get_nome() == c3.get_nome());
+        CHECK(L[2].get_nome() == c1.get_nome());
 
         L.Adiciona(c4,3);
-        CHECK(L.Consulta(0).get_nome() == c2.get_nome());
-        CHECK(L.Consulta(1).get_nome() == c3.get_nome());
-        CHECK(L.Consulta(2).get_nome() == c1.get_nome());
-        CHECK(L.Consulta(3).get_nome() == c4.get_nome());
+        CHECK(L[0].get_nome() == c2.get_nome());
+        CHECK(L[1].get_nome() == c3.get_nome());
+        CHECK(L[2].get_nome() == c1.get_nome());
+        CHECK(L[3].get_nome() == c4.get_nome());
 
         CHECK_THROWS_AS(L.Adiciona(c5,10),std::out_of_range);
     }
@@ -156,23 +156,20 @@ TEST_CASE("ListaEncadeada: Retira"){
         L.AdicionaFim(c2);
         L.AdicionaFim(c3);
 
-        CHECK(L.Consulta(2).get_nome() == c3.get_nome());
-        CHECK(L.Consulta(1).get_nome() == c2.get_nome());
-        CHECK(L.Consulta(0).get_nome() == c1.get_nome());
-        Candidato *c = L.RetiraUltimo();
-        CHECK(c->get_nome() == c3.get_nome());
-        delete(c);
+        CHECK(L[2].get_nome() == c3.get_nome());
+        CHECK(L[1].get_nome() == c2.get_nome());
+        CHECK(L[0].get_nome() == c1.get_nome());
+        Candidato c = L.RetiraUltimo();
+        CHECK(c.get_nome() == c3.get_nome());
 
-        CHECK(L.Consulta(1).get_nome() == c2.get_nome());
-        CHECK(L.Consulta(0).get_nome() == c1.get_nome());
+        CHECK(L[1].get_nome() == c2.get_nome());
+        CHECK(L[0].get_nome() == c1.get_nome());
         c = L.RetiraUltimo();
-        CHECK(c->get_nome() == c2.get_nome());
-        delete(c);
+        CHECK(c.get_nome() == c2.get_nome());
 
-        CHECK(L.Consulta(0).get_nome() == c1.get_nome());
+        CHECK(L[0].get_nome() == c1.get_nome());
         c = L.RetiraUltimo();
-        CHECK(c->get_nome() == c1.get_nome());
-        delete(c);
+        CHECK(c.get_nome() == c1.get_nome());
 
         CHECK(L.Vazia() == true);
         CHECK_THROWS_AS(L.RetiraUltimo(),std::invalid_argument);
@@ -186,22 +183,20 @@ TEST_CASE("ListaEncadeada: Retira"){
         L.AdicionaFim(c2);
         L.AdicionaFim(c3);
 
-        CHECK(L.Consulta(2).get_nome() == c3.get_nome());
-        CHECK(L.Consulta(1).get_nome() == c2.get_nome());
-        CHECK(L.Consulta(0).get_nome() == c1.get_nome());
-        Candidato *c = L.RetiraPrimeiro();
-        CHECK(c->get_nome() == c1.get_nome());
+        CHECK(L[2].get_nome() == c3.get_nome());
+        CHECK(L[1].get_nome() == c2.get_nome());
+        CHECK(L[0].get_nome() == c1.get_nome());
+        Candidato c = L.RetiraPrimeiro();
+        CHECK(c.get_nome() == c1.get_nome());
 
-        CHECK(L.Consulta(1).get_nome() == c3.get_nome());
-        CHECK(L.Consulta(0).get_nome() == c2.get_nome());
+        CHECK(L[1].get_nome() == c3.get_nome());
+        CHECK(L[0].get_nome() == c2.get_nome());
         c = L.RetiraPrimeiro();
-        CHECK(c->get_nome() == c2.get_nome());
-        delete(c);
+        CHECK(c.get_nome() == c2.get_nome());
 
-        CHECK(L.Consulta(0).get_nome() == c3.get_nome());
+        CHECK(L[0].get_nome() == c3.get_nome());
         c = L.RetiraPrimeiro();
-        CHECK(c->get_nome() == c3.get_nome());
-        delete(c);
+        CHECK(c.get_nome() == c3.get_nome());
 
         CHECK(L.Vazia() == true);
         CHECK_THROWS_AS(L.RetiraPrimeiro(),std::invalid_argument);
@@ -219,32 +214,28 @@ TEST_CASE("ListaEncadeada: Retira"){
         L.Adiciona(c3,1);
         L.Adiciona(c4,3);
 
-        CHECK(L.Consulta(0).get_nome() == c2.get_nome());
-        CHECK(L.Consulta(1).get_nome() == c3.get_nome());
-        CHECK(L.Consulta(2).get_nome() == c1.get_nome());
-        CHECK(L.Consulta(3).get_nome() == c4.get_nome());
-        Candidato *c = L.Retira(2);
-        CHECK(c->get_nome() == c1.get_nome());
-        delete(c);
+        CHECK(L[0].get_nome() == c2.get_nome());
+        CHECK(L[1].get_nome() == c3.get_nome());
+        CHECK(L[2].get_nome() == c1.get_nome());
+        CHECK(L[3].get_nome() == c4.get_nome());
+        Candidato c = L.Retira(2);
+        CHECK(c.get_nome() == c1.get_nome());
 
-        CHECK(L.Consulta(0).get_nome() == c2.get_nome());
-        CHECK(L.Consulta(1).get_nome() == c3.get_nome());
-        CHECK(L.Consulta(2).get_nome() == c4.get_nome());
+        CHECK(L[0].get_nome() == c2.get_nome());
+        CHECK(L[1].get_nome() == c3.get_nome());
+        CHECK(L[2].get_nome() == c4.get_nome());
         c = L.Retira(0);
-        CHECK(c->get_nome() == c2.get_nome());
-        delete(c);
+        CHECK(c.get_nome() == c2.get_nome());
 
-        CHECK(L.Consulta(0).get_nome() == c3.get_nome());
-        CHECK(L.Consulta(1).get_nome() == c4.get_nome());
+        CHECK(L[0].get_nome() == c3.get_nome());
+        CHECK(L[1].get_nome() == c4.get_nome());
         c = L.Retira(1);
-        CHECK(c->get_nome() == c4.get_nome());
-        delete(c);
+        CHECK(c.get_nome() == c4.get_nome());
 
-        CHECK(L.Consulta(0).get_nome() == c3.get_nome());
+        CHECK(L[0].get_nome() == c3.get_nome());
         CHECK_THROWS_AS(L.Retira(2), std::out_of_range);
         c = L.Retira(0);
-        CHECK(c->get_nome() == c3.get_nome());
-        delete(c);
+        CHECK(c.get_nome() == c3.get_nome());
         CHECK(L.Vazia() == true);
         CHECK_THROWS_AS(L.Retira(0), std::invalid_argument);
     }
@@ -283,15 +274,15 @@ TEST_CASE("ListaEncadeada<Candidato>: pesquisa"){
 
     // Checagens rápidas
     CHECK(L_cand.Vazia() == true);
-    CHECK_THROWS_AS(L_cand.Pesquisa(c1),std::invalid_argument);
+    CHECK(L_cand.Pesquisa(c1) == nullptr);
 
     // Cria a lista em ordem
     L_cand.AdicionaFim(c1);
     L_cand.AdicionaFim(c3);
     L_cand.AdicionaFim(c2);
 
-    CHECK(L_cand.Pesquisa(C1)->objeto.get_nome() == c2.get_nome());
-    CHECK(L_cand.Pesquisa(C2)->objeto.get_nome() == c3.get_nome());
+    CHECK(L_cand.Pesquisa(C1).objeto.get_nome() == c2.get_nome());
+    CHECK(L_cand.Pesquisa(C2).objeto.get_nome() == c3.get_nome());
     CHECK(L_cand.Pesquisa(C3) == nullptr);
 }
 
@@ -313,6 +304,7 @@ TEST_CASE("ListaEncadeada<Candidato>: get_indice"){
     L.Adiciona(c4,3);
     CHECK(L.get_indice(c4) == 3);
 }
+
 /*
 TEST_CASE("ListaEncadeada<Curso>: adiciona"){
     // "Carrega os candidatos"
@@ -324,13 +316,7 @@ TEST_CASE("ListaEncadeada<Curso>: adiciona"){
     Candidato c5("Mario da Silva", 657.93,1,2);
     Candidato c6("Sergio Osvaldo Felipe",871,1,0);
     Candidato c7("Lucia Esther Araujo",656.67,0,1);
-    L_cand.AdicionaFim(c1);
-    L_cand.AdicionaFim(c2);
-    L_cand.AdicionaFim(c3);
-    L_cand.AdicionaFim(c4);
-    L_cand.AdicionaFim(c5);
-    L_cand.AdicionaFim(c6);
-    L_cand.AdicionaFim(c7);
+    std::cout << "OK1" << std::endl;
 
     // Carrega os cursos
     Curso cur1("Curso1",4);
@@ -340,57 +326,130 @@ TEST_CASE("ListaEncadeada<Curso>: adiciona"){
     L_cursos.AdicionaFim(cur1);
     L_cursos.AdicionaFim(cur2);
     L_cursos.AdicionaFim(cur3);
+    std::cout << "OK2" << std::endl;
 
-    for (int i = 0; i < L_cand.get_n_elementos(); i++){
-        Candidato* c = &(L_cand.Pesquisa(i)->objeto);
-        int i_curso = c->get_curso_1();
-        L_cursos.Pesquisa(i_curso)->objeto.Adiciona(*c);
-    }
+    
 
-    // Cur1(4): c7,c3,__,__/__
-    // Cur2(2): c6,c1/c5,c4
-    // Cur3(4): c2,c5,c4
+    /* Estágios:
+    C1:__,__,__,__/__
+    C2:__,__/__
+    C3:__,__,__,__/__
+    *
 
-    CHECK(L_cursos.Consulta(0).ClassificadosConsulta(0).get_nome() == c7.get_nome());
-    CHECK(L_cursos.Consulta(0).ClassificadosConsulta(1).get_nome() == c3.get_nome());
-    CHECK(L_cursos.Consulta(0).get_nota_de_corte() == 0);
+    /* Teste Adição c1:
+    C1:__,__,__,__/__
+    C2:c1,__/__
+    C3:__,__,__,__/__
+    *
+    L_cursos.Adiciona(c1);
+    L_cursos.imprime();
+    CHECK(L_cursos[0].get_nota_de_corte() == 0);
+    CHECK(L_cursos[1].ClassificadosConsulta(0).get_nome() == c1.get_nome());
+    CHECK(L_cursos[1].get_nota_de_corte() == 0);
+    CHECK(L_cursos[2].get_nota_de_corte() == 0);
 
-    CHECK(L_cursos.Consulta(1).ClassificadosConsulta(0).get_nome() == c6.get_nome());
-    CHECK(L_cursos.Consulta(1).ClassificadosConsulta(1).get_nome() == c1.get_nome());
-    CHECK(L_cursos.Consulta(1).EsperaConsulta(0).get_nome() == c5.get_nome());
-    CHECK(L_cursos.Consulta(1).EsperaConsulta(1).get_nome() == c4.get_nome());
-    CHECK(L_cursos.Consulta(1).get_nota_de_corte() == c1.get_nota());
+    /* Teste Adição c2:
+    C1:__,__,__,__/__
+    C2:c1,__/__
+    C3:c2,__,__,__/__
+    *
+    L_cursos.Adiciona(c2);
+    L_cursos.imprime();
+    CHECK(L_cursos[0].get_nota_de_corte() == 0);
+    CHECK(L_cursos[1].ClassificadosConsulta(0).get_nome() == c1.get_nome());
+    CHECK(L_cursos[1].get_nota_de_corte() == 0);
+    CHECK(L_cursos[2].ClassificadosConsulta(0).get_nome() == c2.get_nome());
+    CHECK(L_cursos[2].get_nota_de_corte() == 0);
 
-    CHECK(L_cursos.Consulta(2).ClassificadosConsulta(0).get_nome() == c2.get_nome());
-    CHECK(L_cursos.Consulta(2).ClassificadosConsulta(1).get_nome() == c5.get_nome());
-    CHECK(L_cursos.Consulta(2).ClassificadosConsulta(2).get_nome() == c4.get_nome());
+    /* Teste Adição c3:
+    C1:c3,__,__,__/__
+    C2:c1,__/__
+    C3:c2,__,__,__/__
+    *
+    L_cursos.Adiciona(c3);
+    L_cursos.imprime();
+    CHECK(L_cursos[0].ClassificadosConsulta(0).get_nome() == c3.get_nome());
+    CHECK(L_cursos[0].get_nota_de_corte() == 0);
+    CHECK(L_cursos[1].ClassificadosConsulta(0).get_nome() == c1.get_nome());
+    CHECK(L_cursos[1].get_nota_de_corte() == 0);
+    CHECK(L_cursos[2].ClassificadosConsulta(0).get_nome() == c2.get_nome());
+    CHECK(L_cursos[2].get_nota_de_corte() == 0);
 
+    /* Teste Adição c4:
+    C1:c3,__,__,__/__
+    C2:c1,c4/__
+    C3:c2,__,__,__/__
+    *
+    L_cursos.Adiciona(c4);
+    CHECK(L_cursos[0].ClassificadosConsulta(0).get_nome() == c3.get_nome());
+    CHECK(L_cursos[0].get_nota_de_corte() == 0);
+    CHECK(L_cursos[1].ClassificadosConsulta(0).get_nome() == c1.get_nome());
+    CHECK(L_cursos[1].ClassificadosConsulta(1).get_nome() == c4.get_nome());
+    CHECK(L_cursos[1].get_nota_de_corte() == c4.get_nota());
+    CHECK(L_cursos[2].ClassificadosConsulta(0).get_nome() == c2.get_nome());
+    CHECK(L_cursos[2].get_nota_de_corte() == 0);
 
-}
-*/
-/*
-TEST_CASE("ListaEncadeada<Candidato>: adiciona"){
-    Candidato c1("Joao da Silva", 765.87,0,1);
-    Candidato c2("Maria da Silva", 622.87,2,0);
-    Candidato c3("Mario da Silva", 657.93,0,2);
-    Candidato c4("Joana da Silva", 622.87,0,1);
-    Candidato c5("Manuel da Silva", 722.87,0,2);
-    Candidato c6("Jobson da Silva", 522.87,0,2);
-    ListaEncadeada<Candidato> L_cand;
+    /* Teste Adição c5:
+    C1:c3,__,__,__/__
+    C2:c1,c5/c4,__
+    C3:c2,c4,__,__/__
+    *
+    L_cursos.Adiciona(c5);
+    CHECK(L_cursos[0].ClassificadosConsulta(0).get_nome() == c3.get_nome());
+    CHECK(L_cursos[0].get_nota_de_corte() == 0);
+    CHECK(L_cursos[1].ClassificadosConsulta(0).get_nome() == c1.get_nome());
+    CHECK(L_cursos[1].ClassificadosConsulta(1).get_nome() == c5.get_nome());
+    CHECK(L_cursos[1].EsperaConsulta(0).get_nome() == c4.get_nome());
+    CHECK(L_cursos[1].get_nota_de_corte() == c5.get_nota());
+    CHECK(L_cursos[2].ClassificadosConsulta(0).get_nome() == c2.get_nome());
+    CHECK(L_cursos[2].ClassificadosConsulta(1).get_nome() == c4.get_nome());
+    CHECK(L_cursos[2].get_nota_de_corte() == 0);
 
-    L_cand.Adiciona(c1);
-    L_cand.Adiciona(c2);
-    L_cand.Adiciona(c3);
-    L_cand.Adiciona(c4);
-    L_cand.Adiciona(c5);
-    L_cand.Adiciona(c6);
+    /* Teste Adição c6:
+    C1:c3,__,__,__/__
+    C2:c6,c1/c5,c4,__
+    C3:c2,c5,c4,__/__
+    *
+    L_cursos.Adiciona(c6);
+    CHECK(L_cursos[0].ClassificadosConsulta(0).get_nome() == c3.get_nome());
+    CHECK(L_cursos[0].get_nota_de_corte() == 0);
+    CHECK(L_cursos[1].ClassificadosConsulta(0).get_nome() == c6.get_nome());
+    CHECK(L_cursos[1].ClassificadosConsulta(1).get_nome() == c1.get_nome());
+    CHECK(L_cursos[1].EsperaConsulta(0).get_nome() == c5.get_nome());
+    CHECK(L_cursos[1].EsperaConsulta(1).get_nome() == c4.get_nome());
+    CHECK(L_cursos[1].get_nota_de_corte() == c1.get_nota());
+    CHECK(L_cursos[2].ClassificadosConsulta(0).get_nome() == c2.get_nome());
+    CHECK(L_cursos[2].ClassificadosConsulta(1).get_nome() == c5.get_nome());
+    CHECK(L_cursos[2].ClassificadosConsulta(2).get_nome() == c4.get_nome());
+    CHECK(L_cursos[2].get_nota_de_corte() == 0);
 
-    CHECK(L_cand.Consulta(0).get_nome() == c1.get_nome());
-    CHECK(L_cand.Consulta(1).get_nome() == c5.get_nome());
-    CHECK(L_cand.Consulta(2).get_nome() == c3.get_nome());
-    CHECK(L_cand.Consulta(3).get_nome() == c1.get_nome());
-    CHECK(L_cand.Consulta(4).get_nome() == c1.get_nome());
-    CHECK(L_cand.Consulta(5).get_nome() == c1.get_nome());
+    /*Teste Classificação Final: 
+    Cur1(4): c7,c3,__,__/__
+    Cur2(2): c6,c1/c5,c4
+    Cur3(4): c2,c5,c4,__/__
+    *
+    L_cursos.Adiciona(c7);
+    CHECK(L_cursos[0].ClassificadosConsulta(0).get_nome() == c7.get_nome());
+    CHECK(L_cursos[0].ClassificadosConsulta(1).get_nome() == c3.get_nome());
+    CHECK(L_cursos[0].get_nota_de_corte() == 0);
+    std::cout << "OK4" << std::endl;
+
+    CHECK(L_cursos[1].ClassificadosConsulta(0).get_nome() == c6.get_nome());
+    CHECK(L_cursos[1].ClassificadosConsulta(1).get_nome() == c1.get_nome());
+    CHECK(L_cursos[1].EsperaConsulta(0).get_nome() == c5.get_nome());
+    CHECK(L_cursos[1].EsperaConsulta(1).get_nome() == c4.get_nome());
+    CHECK(L_cursos[1].get_nota_de_corte() == c1.get_nota());
+    std::cout << "OK5" << std::endl;
+
+    CHECK(L_cursos[2].ClassificadosConsulta(0).get_nome() == c2.get_nome());
+    CHECK(L_cursos[2].ClassificadosConsulta(1).get_nome() == c5.get_nome());
+    CHECK(L_cursos[2].ClassificadosConsulta(2).get_nome() == c4.get_nome());
+    CHECK(L_cursos[2].get_nota_de_corte() == 0);
+    std::cout << "OK6" << std::endl;
+
 
 }*/
+
+
+
 
