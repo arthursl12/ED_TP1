@@ -95,9 +95,6 @@ int main(int argc, char* argv[]){
     L._primeiro()->AdicionaFim(c1);
     L.proximo()->AdicionaFim(c2);
 
-    std::cout << L._primeiro()->Classif_primeiro()->get_nome();
-    std::cout << L.proximo()->Classif_primeiro()->get_nome();
-
     L._primeiro();
     L.proximo()->AdicionaFim(c3);
     L._primeiro();
