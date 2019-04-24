@@ -289,13 +289,20 @@ int ListaEncadeada<Candidato>::get_indice(Candidato* cand){
     return j-1;
 }
 
-template <class T> 
+template <class T>
+/* Retorna um ponteiro do objeto na primeira posição (logo após a célula-cabeça);
+É um iterador para acessar (e modificar) os elementos da lista; OBS.: não abuse:
+guarde o iterador em uma variável e reutilize ela, caso contrário a execução pode
+ser abortada abruptamente pois serão chamados destrutores e deletes para objetos
+que não mais existem */
 T* ListaEncadeada<T>::_primeiro() {
-    this->pos = this->primeiro; 
-    return this->pos->prox->objeto;
+    this->pos = this->primeiro->prox; 
+    return this->pos->objeto;
 }
 
 template <class T> 
+/* 'Anda' com o iterador uma posição para frente; retorna um ponteiro do objeto
+na posição seguinte à que o iterador está atualmente */
 T* ListaEncadeada<T>::proximo() {
     this->pos = this->pos->prox;
     if (this->pos == nullptr) 

@@ -93,34 +93,37 @@ int main(int argc, char* argv[]){
     
     Candidato *c1 = new Candidato("Joao da Silva", 765.87,1,23);
     Candidato *c2 = new Candidato("Manuel da Silva", 722.87,2,3);
-    //Candidato *c3 = new Candidato("Maria da Silva", 622.87,0,2);
+    Candidato *c3 = new Candidato("Maria da Silva", 622.87,0,2);
     //c.AdicionaFim(*c1);
     //c.AdicionaFim(*c2);
 
     
-    L._primeiro()->AdicionaFim(*c1);
     std::cout << "Alo" << std::endl;
-    L.proximo()->AdicionaFim(*c2);
     std::cout << "Alo2" << std::endl;
     
-    Curso *c = L._primeiro();
-    std::cout << c->get_nome() << std::endl;
-    //L.proximo()->AdicionaFim(*c3);
+    Curso* C1 = L._primeiro();
+    C1->AdicionaFim(*c1);
+    std::cout << C1->ClassificadosConsulta(0).get_nome() << std::endl;
+    Curso* C2 = L.proximo();
+    std::cout << C2->get_nome() << std::endl;
+    C2->AdicionaFim(*c2);
+    C2->AdicionaFim(*c3);
     std::cout << "Alo4" << std::endl;
+    std::cout << C2->ClassificadosConsulta(0).get_nome() << std::endl;
+    std::cout << C2->ClassificadosConsulta(1).get_nome() << std::endl;
     std::cout << "Alo5" << std::endl;
-    std::cout << L.proximo()->Classif_primeiro()->get_nome() << std::endl;
+    std::cout << C2->Classif_primeiro()->get_nome() << std::endl;
     std::cout << "Alo6" << std::endl;
     std::cout << "Alo7" << std::endl;
     //std::cout << L.proximo()->Classifproximo()->get_nome() << std::endl;
     std::cout << "Alo8" << std::endl;
     
 
-    std::cout << c->ClassificadosConsulta(0).get_nome() << std::endl;
-    std::cout << c->ClassificadosConsulta(1).get_nome() << std::endl;
-
+    std::cout << C1->ClassificadosConsulta(0).get_nome() << std::endl;
+    
     delete c1;
     delete c2;
-    //delete c3;
+    delete c3;
     
 
     delete cur1;

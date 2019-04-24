@@ -56,12 +56,12 @@ comp: $(TGTDIR)
 	$(RM) main.gcda
 
 run:
-	@bin/main.exe
+	@./bin/main
 	$(RM) main.gcno
 	$(RM) main.gcda
 
 debug:
-	@gdb $(BIN)/main.exe
+	@gdb $(BIN)/main
 
 coverage: $(COVER)
 $(COVER): src/%.gcov : src/%.cpp
