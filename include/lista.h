@@ -28,7 +28,8 @@ public:
     ~ListaEncadeada();
 
     Celula<T>* Pesquisa(int i);
-    Celula<Candidato>* Pesquisa(Candidato& cand);
+    Candidato* Pesquisa(Candidato& cand);
+    void AnaliseEmpurrado(Candidato& empurrado,int i_curso_atual);
     
     T* _primeiro();
     T* proximo();

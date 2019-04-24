@@ -112,22 +112,10 @@ void ListaEncadeada<T>::Adiciona(T& novo, int i){
 }
 
 template<>
-/* Adiciona um candidato nos cursos desejados, respeitando as regras do SISU */
-void ListaEncadeada<Curso>::Adiciona(Candidato& cand){
-}
-
-template<>
-/* Adiciona um candidato numa lista de Candidatos, respeitando os critérios de 
-ordenação: nota, primeira opção e ordem de chegada */
-void ListaEncadeada<Candidato>::Adiciona(Candidato& cand){
-    
-}
-
-template<>
 /* Procura um Candidato com nota menor ou igual à do Candidato pedido;
-retorna o primeiro candidato com nota menor ou igual
+retorna o ponteiro do primeiro candidato com nota menor ou igual
 retorna nullptr se o candidato pedido for o menor */
-Celula<Candidato>* ListaEncadeada<Candidato>::Pesquisa(Candidato& cand){
+Candidato* ListaEncadeada<Candidato>::Pesquisa(Candidato& cand){
     if (this->Vazia() == true)
         throw std::invalid_argument("Lista Vazia");
 
@@ -139,7 +127,7 @@ Celula<Candidato>* ListaEncadeada<Candidato>::Pesquisa(Candidato& cand){
         }
         atual = atual->prox;
     } // Encontrar um com a nota igual ou menor
-    return atual;
+    return atual->objeto;
 }
 
 template<class T>
@@ -312,10 +300,53 @@ T* ListaEncadeada<T>::proximo() {
 }
 
 template<>
-void ListaEncadeada<Curso>::teste(){
-    
+/* Analisa se o empurrado deve ser colocado em seu outro curso */
+void ListaEncadeada<Curso>::AnaliseEmpurrado(Candidato& empurrado,int i_curso_atual){
+    int i1_empurrado = empurrado.get_curso_1();
+    int i2_empurrado = empurrado.get_curso_2();
+
+    if (i1_empurrado == i_curso_atual){
+        /* O 'empurrado' foi colocado na lista de espera de sua primeira opção
+        logo deve ser colocado para se classificar na sua segunda opção */
+        Celula<Curso> *cur2 = this->Pesquisa(i2_empurrado);
+        int res2 = cur2->objeto->Adiciona(empurrado,i2_empurrado);
+        if (res2 == 1){
+            /* Alterou a lista de espera do segundo curso, temos que arrumá-la */
+            Candidato *c = cur2->objeto->ArrumaEspera(i2_empurrado,res2);
+            AnaliseEmpurrado(*c,i2_empurrado);
+        }
+    }else{
+        /* O 'empurrado' foi colocado na lista de espera de sua segunda opção
+        logo apenas temos que arrumar essa lista de espera */
+        Celula<Curso> *cur2 = this->Pesquisa(i2_empurrado);
+        cur2->objeto->ArrumaEspera(i2_empurrado,2);
+
+    }
 }
 
+template<>
+/* Adiciona um candidato nos cursos desejados, respeitando as regras do SISU */
+void ListaEncadeada<Curso>::Adiciona(Candidato& cand){
+    Celula<Curso> *cur1 = this->Pesquisa(cand.get_curso_1());
+    int res = cur1->objeto->Adiciona(cand,cand.get_curso_1());
+    std::cout << cand.get_nome() << ": " << cur1->objeto->get_nome() << "(" << cand.get_curso_1() << ")" << " res=" << res << std::endl;
+
+    if (res == 1){
+        /* Alterou a lista de espera, tem-se que reorganizar o primeiro lugar
+        que foi 'empurrado' para lá e colocar esse no outro curso dele*/
+        this->AnaliseEmpurrado(*cur1->objeto->ArrumaEspera(cand.get_curso_1(),res),cand.get_curso_1());
+        
+    }else if (res == 2){
+        /* O novo candidato foi para a lista de espera, então devemos colocá-lo
+        na sua segunda opção */
+        Celula<Curso> *cur2 = this->Pesquisa(cand.get_curso_2());
+        int res2 = cur2->objeto->Adiciona(cand,cand.get_curso_2());
+        if (res2 == 1)
+            cur2->objeto->ArrumaEspera(cand.get_curso_2(),res);
+    }
+    /* Se o res == 0 ele foi classificado direto, não precisamos colocar ninguém 
+    em outro curso */
+}
 
 /* Permite que os seguintes templates sejam válidos, permitindo a compilação */
 template class ListaEncadeada<Candidato>;

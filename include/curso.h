@@ -31,7 +31,8 @@ public:
 
     Candidato ClassificadosConsulta(int i);
     Candidato EsperaConsulta(int i);
-    
+
+    Candidato* ArrumaEspera(int i_curso, int situacao);
 };
 
 
