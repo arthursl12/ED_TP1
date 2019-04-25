@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 /* Construtor da classe Candidato */
-Candidato::Candidato(std::string _nome, double _nota, int _i_curso1, int _i_curso2)
+Candidato::Candidato(const char* _nome, double _nota, int _i_curso1, int _i_curso2)
 :nome(_nome){
     if (_nota < 0 || _nota > 1000)
         throw std::invalid_argument("Nota invalida");
@@ -19,7 +19,7 @@ Candidato::Candidato(std::string _nome, double _nota, int _i_curso1, int _i_curs
 
 /* GETTERS */
 /* Retorna o nome do candidato */
-std::string Candidato::get_nome(){
+const char* Candidato::get_nome(){
     return this->nome;
 }
 

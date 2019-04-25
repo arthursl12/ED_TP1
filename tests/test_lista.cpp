@@ -338,46 +338,41 @@ TEST_CASE("ListaEncadeada: iterador"){
         CHECK(L.proximo()->get_nome() == c3.get_nome());
     }
     SUBCASE("Lista de Cursos:"){
-        Curso* cur1 = new Curso("Curso1",4);
-        Curso* cur2 = new Curso("Curso2",2);
-        Curso* cur3 = new Curso("Curso3",4);
+        Curso cur1("Curso1",4);
+        Curso cur2("Curso2",2);
+        Curso cur3("Curso3",4);
         ListaEncadeada<Curso> L;
-        L.AdicionaFim(*cur1);
-        L.AdicionaFim(*cur2);
-        L.AdicionaFim(*cur3);
+        L.AdicionaFim(cur1);
+        L.AdicionaFim(cur2);
+        L.AdicionaFim(cur3);
 
         Curso *atual = L._primeiro();
-        CHECK(atual->get_nome() == cur1->get_nome());
+        CHECK(atual->get_nome() == cur1.get_nome());
         atual = L.proximo();
-        CHECK(atual->get_nome() == cur2->get_nome());
+        CHECK(atual->get_nome() == cur2.get_nome());
         atual = L.proximo();
-        CHECK(atual->get_nome() == cur3->get_nome());
+        CHECK(atual->get_nome() == cur3.get_nome());
 
-        Candidato *c1 = new Candidato("Joao da Silva", 765.87,1,23);
-        Candidato *c2 = new Candidato("Manuel da Silva", 722.87,2,3);
-        Candidato *c3 = new Candidato("Maria da Silva", 622.87,0,2);
+        Candidato c1("Joao da Silva", 765.87,1,23);
+        Candidato c2("Manuel da Silva", 722.87,2,3);
+        Candidato c3("Maria da Silva", 622.87,0,2);
         atual = L._primeiro();
-        atual->AdicionaFim(*c1);
+        atual->AdicionaFim(c1);
         atual = L.proximo();
-        atual->AdicionaFim(*c2);
+        atual->AdicionaFim(c2);
 
         atual = L._primeiro();
-        CHECK(atual->Classif_primeiro()->get_nome() == c1->get_nome());
+        CHECK(atual->Classif_primeiro()->get_nome() == c1.get_nome());
         atual = L.proximo();
-        CHECK(atual->Classif_primeiro()->get_nome() == c2->get_nome());
+        CHECK(atual->Classif_primeiro()->get_nome() == c2.get_nome());
 
-        atual->AdicionaFim(*c3);
-        CHECK(atual->Classif_primeiro()->get_nome() == c2->get_nome());
-        CHECK(atual->Classifproximo()->get_nome() == c3->get_nome());
+        atual->AdicionaFim(c3);
+        CHECK(atual->Classif_primeiro()->get_nome() == c2.get_nome());
+        CHECK(atual->Classifproximo()->get_nome() == c3.get_nome());
 
-        delete c1;
-        delete c2;
-        delete c3;
-        
-
-        delete cur1;
-        delete cur2;
-        delete cur3;
+        Curso *c = L.RetiraPrimeiro();
+        c = L.RetiraPrimeiro();
+        c = L.RetiraPrimeiro();
     }
 }
 
@@ -385,33 +380,33 @@ TEST_CASE("ListaEncadeada: iterador"){
 TEST_CASE("ListaEncadeada<Curso>: adiciona"){
     // "Carrega os candidatos"
     ListaEncadeada<Candidato> L_cand;
-    Candidato *c1 = new Candidato("Joao da Silva", 765.87,1,0);
-    Candidato *c2 = new Candidato("Manuel da Silva", 722.87,2,0);
-    Candidato *c3 = new Candidato("Maria da Silva", 622.87,0,2);
-    Candidato *c4 = new Candidato("Joana da Silva", 627.83,1,2);
-    Candidato *c5 = new Candidato("Mario da Silva", 657.93,1,2);
-    Candidato *c6 = new Candidato("Sergio Osvaldo Felipe",871,1,0);
-    Candidato *c7 = new Candidato("Lucia Esther Araujo",656.67,0,1);
-    L_cand.AdicionaFim(*c1);
-    L_cand.AdicionaFim(*c2);
-    L_cand.AdicionaFim(*c3);
-    L_cand.AdicionaFim(*c4);
-    L_cand.AdicionaFim(*c5);
-    L_cand.AdicionaFim(*c6);
-    L_cand.AdicionaFim(*c7);
+    Candidato c1("Joao da Silva", 765.87,1,0);
+    Candidato c2("Manuel da Silva", 722.87,2,0);
+    Candidato c3("Maria da Silva", 622.87,0,2);
+    Candidato c4("Joana da Silva", 627.83,1,2);
+    Candidato c5("Mario da Silva", 657.93,1,2);
+    Candidato c6("Sergio Osvaldo Felipe",871,1,0);
+    Candidato c7("Lucia Esther Araujo",656.67,0,1);
+    L_cand.AdicionaFim(c1);
+    L_cand.AdicionaFim(c2);
+    L_cand.AdicionaFim(c3);
+    L_cand.AdicionaFim(c4);
+    L_cand.AdicionaFim(c5);
+    L_cand.AdicionaFim(c6);
+    L_cand.AdicionaFim(c7);
     Candidato *it_cand = L_cand._primeiro();
 
     // Carrega os cursos
-    Curso* cur1 = new Curso("Curso1",4);
-    Curso* cur2 = new Curso("Curso2",2);
-    Curso* cur3 = new Curso("Curso3",4);
-    ListaEncadeada<Curso>* L_cursos = new ListaEncadeada<Curso>;
-    L_cursos->AdicionaFim(*cur1);
-    L_cursos->AdicionaFim(*cur2);
-    L_cursos->AdicionaFim(*cur3);
+    Curso cur1("Curso1",4);
+    Curso cur2("Curso2",2);
+    Curso cur3("Curso3",4);
+    ListaEncadeada<Curso> L_cursos;
+    L_cursos.AdicionaFim(cur1);
+    L_cursos.AdicionaFim(cur2);
+    L_cursos.AdicionaFim(cur3);
 
     for (int i = 0; i < L_cand.get_n_elementos(); i++){
-        L_cursos->Adiciona(*it_cand);
+        L_cursos.Adiciona(*it_cand);
         it_cand = L_cand.proximo();
     }
     // Classificação Final
@@ -419,35 +414,27 @@ TEST_CASE("ListaEncadeada<Curso>: adiciona"){
     // Cur2(2): c6,c1/c5,c4
     // Cur3(4): c2,c5,c4,__/__
 
-    Curso *it_curso = L_cursos->_primeiro();
-    CHECK(it_curso->ClassificadosConsulta(0).get_nome() == c7->get_nome());
-    CHECK(it_curso->ClassificadosConsulta(1).get_nome() == c3->get_nome());
+    Curso *it_curso = L_cursos._primeiro();
+    CHECK(it_curso->ClassificadosConsulta(0).get_nome() == c7.get_nome());
+    CHECK(it_curso->ClassificadosConsulta(1).get_nome() == c3.get_nome());
     CHECK(it_curso->get_nota_de_corte() == 0);
 
-    it_curso = L_cursos->proximo();
-    CHECK(it_curso->ClassificadosConsulta(0).get_nome() == c6->get_nome());
-    CHECK(it_curso->ClassificadosConsulta(1).get_nome() == c1->get_nome());
-    CHECK(it_curso->EsperaConsulta(0).get_nome() == c5->get_nome());
-    CHECK(it_curso->EsperaConsulta(1).get_nome() == c4->get_nome());
-    CHECK(it_curso->get_nota_de_corte() == c1->get_nota());
+    it_curso = L_cursos.proximo();
+    CHECK(it_curso->ClassificadosConsulta(0).get_nome() == c6.get_nome());
+    CHECK(it_curso->ClassificadosConsulta(1).get_nome() == c1.get_nome());
+    CHECK(it_curso->EsperaConsulta(0).get_nome() == c5.get_nome());
+    CHECK(it_curso->EsperaConsulta(1).get_nome() == c4.get_nome());
+    CHECK(it_curso->get_nota_de_corte() == c1.get_nota());
 
-    it_curso = L_cursos->proximo();
-    CHECK(it_curso->ClassificadosConsulta(0).get_nome() == c2->get_nome());
-    CHECK(it_curso->ClassificadosConsulta(1).get_nome() == c5->get_nome());
-    CHECK(it_curso->ClassificadosConsulta(2).get_nome() == c4->get_nome());
+    it_curso = L_cursos.proximo();
+    CHECK(it_curso->ClassificadosConsulta(0).get_nome() == c2.get_nome());
+    CHECK(it_curso->ClassificadosConsulta(1).get_nome() == c5.get_nome());
+    CHECK(it_curso->ClassificadosConsulta(2).get_nome() == c4.get_nome());
     CHECK(it_curso->get_nota_de_corte() == 0);
 
-    delete cur1;
-    delete cur2;
-    delete cur3;
-    delete c1;
-    delete c2;
-    delete c3;
-    delete c4;
-    delete c5;
-    delete c6;
-    delete c7;
-    //delete L_cursos;
+    Curso *c = L_cursos.RetiraPrimeiro();
+    c = L_cursos.RetiraPrimeiro();
+    c = L_cursos.RetiraPrimeiro();
 }
 
 /*

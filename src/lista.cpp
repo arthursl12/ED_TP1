@@ -330,7 +330,7 @@ template<>
 void ListaEncadeada<Curso>::Adiciona(Candidato& cand){
     Celula<Curso> *cur1 = this->Pesquisa(cand.get_curso_1());
     int res = cur1->objeto->Adiciona(cand,cand.get_curso_1());
-    std::cout << cand.get_nome() << ": " << cur1->objeto->get_nome() << "(" << cand.get_curso_1() << ")" << " res=" << res << std::endl;
+    //std::cout << cand.get_nome() << ": " << cur1->objeto->get_nome() << "(" << cand.get_curso_1() << ")" << " res=" << res << std::endl;
 
     if (res == 1){
         /* Alterou a lista de espera, tem-se que reorganizar o primeiro lugar

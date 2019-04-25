@@ -11,7 +11,10 @@ struct Celula{
     
     // Construtor inicializador para Celula_str
     Celula(){objeto = nullptr; prox = nullptr; ant = nullptr;}
-    ~Celula(){if (objeto != nullptr) delete objeto; objeto = nullptr;}
+    ~Celula(){
+        if (objeto != nullptr)
+            delete objeto; 
+        objeto = nullptr;}
 };
 
 template<class T>

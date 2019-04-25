@@ -1,23 +1,22 @@
 #ifndef CURSO_H
 #define CURSO_H
 
-#include <string>
 #include "lista.h"
 #include "candidato.h"
 
 class Curso{
 private:
-    std::string nome;
+    const char* nome;
     double nota_de_corte;
     int vagas;
-    ListaEncadeada<Candidato>* classificados;
-    ListaEncadeada<Candidato>* espera;
+    ListaEncadeada<Candidato> classificados;
+    ListaEncadeada<Candidato> espera;
 
 public:
-    Curso(std::string _nome, int _vagas);
+    Curso(const char* _nome, int _vagas);
     ~Curso();
 
-    std::string get_nome();
+    const char* get_nome();
     double get_nota_de_corte();
     int get_vagas();
 

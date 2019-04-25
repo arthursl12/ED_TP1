@@ -3,26 +3,22 @@
 #include <iostream>
 
 /* Construtor do Curso */
-Curso::Curso(std::string _nome, int _vagas)
+Curso::Curso(const char* _nome, int _vagas)
 :nome(_nome){
     if (_vagas < 0)
         throw std::invalid_argument("# vagas invalido");
     this->nota_de_corte = 0;
     this->vagas = _vagas;
-    this->classificados = new ListaEncadeada<Candidato>();
-    this->espera = new ListaEncadeada<Candidato>();
+    //this->classificados = new ListaEncadeada<Candidato>();
+    //this->espera = new ListaEncadeada<Candidato>();
 }
 
 Curso::~Curso(){
-    delete this->classificados;
-    this->classificados = nullptr;
-    delete this->espera;
-    this->classificados = nullptr;
 }
 
 /* Getters */
 /* Retorna a string com o nome do curso */
-std::string Curso::get_nome(){
+const char* Curso::get_nome(){
     return this->nome;
 }
 
@@ -39,13 +35,13 @@ int Curso::get_vagas(){
 /* Retorna uma cópia do objeto Candidato na 
 posição de índice i da lista de Classificados */
 Candidato Curso::ClassificadosConsulta(int i){
-    return this->classificados->Consulta(i);
+    return this->classificados.Consulta(i);
 }
 
 /* Retorna uma cópia do objeto Candidato na 
 posição de índice i da lista de Espera */
 Candidato Curso::EsperaConsulta(int i){
-    return this->espera->Consulta(i);
+    return this->espera.Consulta(i);
 }
 
 /* Executa um desempate entre os candidatos 'cand' e 'atual', sendo que 'atual'
@@ -75,30 +71,30 @@ Retorna 2 se foi para lista de espera;
 */
 int Curso::Adiciona(Candidato& cand, int i_curso){
     /* Supõe que o índice do curso está certo */
-    if (this->classificados->Vazia() == true){
+    if (this->classificados.Vazia() == true){
         // Não há classificados ainda
-        this->classificados->AdicionaInicio(cand);
+        this->classificados.AdicionaInicio(cand);
         return 0;
     }else{
-        Candidato* ptr = this->classificados->Pesquisa(cand);
+        Candidato* ptr = this->classificados.Pesquisa(cand);
         if (ptr == nullptr){
             /* Candidato tem nota menor que todos os Classificados */
-            if (this->classificados->get_n_elementos() == this->vagas){
+            if (this->classificados.get_n_elementos() == this->vagas){
                 /* Classificados está cheio e o novo candidato tem nota menor:
                 vai para a lista de espera */
-                ptr = this->espera->Pesquisa(cand);
+                ptr = this->espera.Pesquisa(cand);
 
                 if (ptr == nullptr){
                     /* Candidato tem a menor nota da Espera */
-                    this->espera->AdicionaFim(cand);
+                    this->espera.AdicionaFim(cand);
                     return 2;
                 }else{
                     if (ptr->get_nota() == cand.get_nota()){
                         /* Há um empate de notas dentro de Espera */
                         // Encontrar o iterador para o candidato de ptr
-                        Candidato *it = this->espera->_primeiro();
+                        Candidato *it = this->espera._primeiro();
                         while (it->get_nome() != ptr->get_nome()){
-                            it = this->espera->proximo();
+                            it = this->espera.proximo();
                         }
                         while (it->get_nota() == cand.get_nota()){
                             /* Loop: caso haja mais de um candidato empatado */
@@ -107,11 +103,11 @@ int Curso::Adiciona(Candidato& cand, int i_curso){
                             if (res == 1){
                                 /* Preferência do novo */
                                 /* Coloca o novo na posição do atual  */
-                                int pos = this->espera->get_indice(ptr);
-                                this->espera->Adiciona(cand,pos);
+                                int pos = this->espera.get_indice(ptr);
+                                this->espera.Adiciona(cand,pos);
                                 return 2;   
                             }
-                            it = this->espera->proximo();
+                            it = this->espera.proximo();
                             if (it == nullptr)
                                 break;
                         }
@@ -119,21 +115,21 @@ int Curso::Adiciona(Candidato& cand, int i_curso){
                         /* Mesmo após todas as iterações, a preferência é de quem já está na
                         lista, logo o novo vai para depois de todos aqueles com a mesma nota 
                         dele */
-                        int pos = this->espera->get_indice(ptr);
-                        this->espera->Adiciona(cand,pos+1);
+                        int pos = this->espera.get_indice(ptr);
+                        this->espera.Adiciona(cand,pos+1);
                         return 2;
                     }else{
                         /* Adiciona o novo candidato à frente do candidato com
                         a nota menor */
-                        this->espera->Adiciona(cand,this->espera->get_indice(ptr));
+                        this->espera.Adiciona(cand,this->espera.get_indice(ptr));
                         return 2;
                     }
                 }
             }else{
                 /* Classificados não está cheio e o novo candidato tem nota menor:
                 vai para o fim de Classificados */
-                this->classificados->AdicionaFim(cand);
-                if (this->classificados->get_n_elementos() == this->vagas)
+                this->classificados.AdicionaFim(cand);
+                if (this->classificados.get_n_elementos() == this->vagas)
                     this->nota_de_corte = cand.get_nota();
                 return 0;
             }
@@ -141,9 +137,9 @@ int Curso::Adiciona(Candidato& cand, int i_curso){
             if (ptr->get_nota() == cand.get_nota()){
                 /* Há um empate de notas dentro dos Classificados */
                 // Encontrar o iterador para o candidato de ptr
-                Candidato *it = this->classificados->_primeiro();
+                Candidato *it = this->classificados._primeiro();
                 while (it->get_nome() != ptr->get_nome()){
-                    it = this->classificados->proximo();
+                    it = this->classificados.proximo();
                 }
                 std::cout << "OBJ : " << ptr->get_nota() << " :: Cand: " << cand.get_nota() << std::endl;
                 while (ptr->get_nota() == cand.get_nota()){
@@ -153,27 +149,27 @@ int Curso::Adiciona(Candidato& cand, int i_curso){
                     
                     if (res == 1){
                         /* Preferência do novo */
-                        if (this->classificados->get_n_elementos() == this->vagas){
+                        if (this->classificados.get_n_elementos() == this->vagas){
                             /* Coloca o novo na posição do atual  */
-                            int pos = this->classificados->get_indice(ptr);
-                            this->classificados->Adiciona(cand,pos);
+                            int pos = this->classificados.get_indice(ptr);
+                            this->classificados.Adiciona(cand,pos);
 
                             /* O último dos Classificados irá para a espera */
-                            Candidato *c = this->classificados->RetiraUltimo();
-                            this->espera->AdicionaInicio(*c);
+                            Candidato *c = this->classificados.RetiraUltimo();
+                            this->espera.AdicionaInicio(*c);
 
                             this->nota_de_corte = this->ClassificadosConsulta(this->vagas-1).get_nota();
                             return 1;
                         }else{
                             /* Novo ocupa lugar do atual */
-                            int pos = this->classificados->get_indice(ptr);
-                            this->classificados->Adiciona(cand,pos);
-                            if (this->classificados->get_n_elementos() == this->vagas)
+                            int pos = this->classificados.get_indice(ptr);
+                            this->classificados.Adiciona(cand,pos);
+                            if (this->classificados.get_n_elementos() == this->vagas)
                                 this->nota_de_corte = cand.get_nota();
                             return 0;
                         }
                     }
-                    it = this->classificados->proximo();
+                    it = this->classificados.proximo();
                     if (it == nullptr)
                         break;
                 }
@@ -181,25 +177,25 @@ int Curso::Adiciona(Candidato& cand, int i_curso){
                 /* Mesmo após todas as iterações, a preferência é de quem já está na
                 lista, logo o novo vai para depois de todos aqueles com a mesma nota 
                 dele */
-                if (this->classificados->get_n_elementos() == this->vagas){
-                    this->espera->AdicionaInicio(cand);
+                if (this->classificados.get_n_elementos() == this->vagas){
+                    this->espera.AdicionaInicio(cand);
                     return 1;
                 }else{
-                    int pos = this->classificados->get_indice(ptr);
-                    this->classificados->Adiciona(cand,pos+1);
-                    if (this->classificados->get_n_elementos() == this->vagas)
+                    int pos = this->classificados.get_indice(ptr);
+                    this->classificados.Adiciona(cand,pos+1);
+                    if (this->classificados.get_n_elementos() == this->vagas)
                         this->nota_de_corte = cand.get_nota();
                     return 0;
                 }
             }else{
                 /* Coloca o novo na posição do atual  */
-                int pos = this->classificados->get_indice(ptr);
-                this->classificados->Adiciona(cand,pos);
-                if (classificados->get_n_elementos() >= get_vagas()){
-                    if (classificados->get_n_elementos() > get_vagas()){
+                int pos = this->classificados.get_indice(ptr);
+                this->classificados.Adiciona(cand,pos);
+                if (classificados.get_n_elementos() >= get_vagas()){
+                    if (classificados.get_n_elementos() > get_vagas()){
                         /* O último dos Classificados irá para a espera */
-                        Candidato *c = this->classificados->RetiraUltimo();
-                        this->espera->AdicionaInicio(*c);
+                        Candidato *c = this->classificados.RetiraUltimo();
+                        this->espera.AdicionaInicio(*c);
                         this->nota_de_corte = this->ClassificadosConsulta(this->vagas-1).get_nota();
                         return 1;
                     }
@@ -212,28 +208,28 @@ int Curso::Adiciona(Candidato& cand, int i_curso){
 }
 
 void Curso::AdicionaFim(Candidato& cand){
-    this->classificados->AdicionaFim(cand);
+    this->classificados.AdicionaFim(cand);
 }
 
 Candidato* Curso::Classif_primeiro(){
-    return classificados->_primeiro();
+    return classificados._primeiro();
 }
 Candidato* Curso::Classifproximo(){
-    return classificados->proximo();
+    return classificados.proximo();
 }
 Candidato* Curso::Espera_primeiro(){
-    return espera->_primeiro();
+    return espera._primeiro();
 }
 Candidato* Curso::Esperaproximo(){
-    return espera->proximo();
+    return espera.proximo();
 }
 
 /* Reorganiza a lista de Espera caso alguém dos classificados tenha sido 'empurrado'
 para lá */
 Candidato* Curso::ArrumaEspera(int i_curso, int situacao){
-    Celula<Candidato>* novo = this->espera->Pesquisa(0);
-    if (espera->get_n_elementos() > 1){
-        Celula<Candidato>* primeiro = this->espera->Pesquisa(1);
+    Celula<Candidato>* novo = this->espera.Pesquisa(0);
+    if (espera.get_n_elementos() > 1){
+        Celula<Candidato>* primeiro = this->espera.Pesquisa(1);
         Candidato *retorno = novo->objeto;
         if (novo->objeto->get_nota() == primeiro->objeto->get_nota()){
             /* Há um empate de notas dentro de Espera */
@@ -245,8 +241,8 @@ Candidato* Curso::ArrumaEspera(int i_curso, int situacao){
                 if (res == 1){
                     /* Preferência do novo */
                     /* Coloca o novo na posição do atual  */
-                    int pos = this->espera->get_indice(primeiro->objeto);
-                    this->espera->Adiciona(*novo->objeto,pos);
+                    int pos = this->espera.get_indice(primeiro->objeto);
+                    this->espera.Adiciona(*novo->objeto,pos);
                     break; 
                 }
                 if (primeiro->prox == nullptr)
@@ -258,17 +254,17 @@ Candidato* Curso::ArrumaEspera(int i_curso, int situacao){
                 /* Mesmo após todas as iterações, a preferência é de quem já está na
                 lista, logo o novo vai para depois de todos aqueles com a mesma nota 
                 dele */
-                int pos = this->espera->get_indice(primeiro->objeto);
-                this->espera->Adiciona(*novo->objeto,pos+1);
+                int pos = this->espera.get_indice(primeiro->objeto);
+                this->espera.Adiciona(*novo->objeto,pos+1);
             }
             
         }else if (novo->objeto->get_nota() < primeiro->objeto->get_nota()){
             /* A nota do 'empurrado' é menor, tem-se que iterar pela espera até 
             encontrar alguém que tenha nota menor que a dele */
-            Candidato *c = this->espera->Pesquisa(*novo->objeto);
+            Candidato *c = this->espera.Pesquisa(*novo->objeto);
             if (c == nullptr){
                 /* O 'empurrado' tem a menor nota da espera */
-                this->espera->AdicionaFim(*novo->objeto);
+                this->espera.AdicionaFim(*novo->objeto);
             }else{
                 if (novo->objeto->get_nota() == primeiro->objeto->get_nota()){
                     /* Há um empate de notas dentro de Espera */
@@ -280,8 +276,8 @@ Candidato* Curso::ArrumaEspera(int i_curso, int situacao){
                         if (res == 1){
                             /* Preferência do novo */
                             /* Coloca o novo na posição do atual  */
-                            int pos = this->espera->get_indice(primeiro->objeto);
-                            this->espera->Adiciona(*novo->objeto,pos);
+                            int pos = this->espera.get_indice(primeiro->objeto);
+                            this->espera.Adiciona(*novo->objeto,pos);
                             break; 
                         }
                         if (primeiro->prox == nullptr)
@@ -293,13 +289,13 @@ Candidato* Curso::ArrumaEspera(int i_curso, int situacao){
                         /* Mesmo após todas as iterações, a preferência é de quem já está na
                         lista, logo o novo vai para depois de todos aqueles com a mesma nota 
                         dele */
-                        int pos = this->espera->get_indice(primeiro->objeto);
-                        this->espera->Adiciona(*novo->objeto,pos+1);
+                        int pos = this->espera.get_indice(primeiro->objeto);
+                        this->espera.Adiciona(*novo->objeto,pos+1);
                     }
                 }else{
                     /* Adiciona o novo candidato à frente do candidato com
                     a nota menor */
-                    this->espera->Adiciona(*novo->objeto,this->espera->get_indice(primeiro->objeto));
+                    this->espera.Adiciona(*novo->objeto,this->espera.get_indice(primeiro->objeto));
                 }
             }
         }

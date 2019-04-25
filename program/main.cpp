@@ -46,8 +46,8 @@ void modulo_leitura(){
         scanf("%i\n",&_vagas);
         _nome = _nome_char;
 
-        Curso *c = new Curso(_nome,_vagas);
-        L_curso.AdicionaFim(*c);
+        Curso c = new Curso(_nome,_vagas);
+        L_curso.AdicionaFim(c);
     }
     print_curso(L_curso);
 
@@ -63,8 +63,8 @@ void modulo_leitura(){
         scanf("%f %i %i\n", &_nota, &_i_1, &_i_2);
         _nome = _nome_char;
 
-        Candidato *c = new Candidato(_nome, _nota, _i_1, _i_2);
-        L_alunos.AdicionaFim(*c);
+        Candidato c = new Candidato(_nome, _nota, _i_1, _i_2);
+        L_alunos.AdicionaFim(c);
     }
     print_cand(L_alunos);
 }*/
@@ -79,75 +79,64 @@ void print_lista(ListaEncadeada<Candidato>& L_aluno){
 int main(int argc, char* argv[]){
     // "Carrega os candidatos"
     ListaEncadeada<Candidato> L_cand;
-    Candidato *c1 = new Candidato("Joao da Silva", 765.87,1,0);
-    Candidato *c2 = new Candidato("Manuel da Silva", 722.87,2,0);
-    Candidato *c3 = new Candidato("Maria da Silva", 622.87,0,2);
-    Candidato *c4 = new Candidato("Joana da Silva", 627.83,1,2);
-    Candidato *c5 = new Candidato("Mario da Silva", 657.93,1,2);
-    Candidato *c6 = new Candidato("Sergio Osvaldo Felipe",871,1,0);
-    Candidato *c7 = new Candidato("Lucia Esther Araujo",656.67,0,1);
-    L_cand.AdicionaFim(*c1);
-    L_cand.AdicionaFim(*c2);
-    L_cand.AdicionaFim(*c3);
-    L_cand.AdicionaFim(*c4);
-    L_cand.AdicionaFim(*c5);
-    L_cand.AdicionaFim(*c6);
-    L_cand.AdicionaFim(*c7);
+    Candidato c1("Joao da Silva", 765.87,1,0);
+    Candidato c2("Manuel da Silva", 722.87,2,0);
+    Candidato c3("Maria da Silva", 622.87,0,2);
+    Candidato c4("Joana da Silva", 627.83,1,2);
+    Candidato c5("Mario da Silva", 657.93,1,2);
+    Candidato c6("Sergio Osvaldo Felipe",871,1,0);
+    Candidato c7("Lucia Esther Araujo",656.67,0,1);
+    L_cand.AdicionaFim(c1);
+    L_cand.AdicionaFim(c2);
+    L_cand.AdicionaFim(c3);
+    L_cand.AdicionaFim(c4);
+    L_cand.AdicionaFim(c5);
+    L_cand.AdicionaFim(c6);
+    L_cand.AdicionaFim(c7);
     Candidato *it_cand = L_cand._primeiro();
 
     // Carrega os cursos
-    Curso* cur1 = new Curso("Curso1",4);
-    Curso* cur2 = new Curso("Curso2",2);
-    Curso* cur3 = new Curso("Curso3",4);
-    ListaEncadeada<Curso>* L_cursos = new ListaEncadeada<Curso>;
-    L_cursos->AdicionaFim(*cur1);
-    L_cursos->AdicionaFim(*cur2);
-    L_cursos->AdicionaFim(*cur3);
+    Curso cur1("Curso1",4);
+    Curso cur2("Curso2",2);
+    Curso cur3("Curso3",4);
+    ListaEncadeada<Curso> L_cursos;
+    L_cursos.AdicionaFim(cur1);
+    L_cursos.AdicionaFim(cur2);
+    L_cursos.AdicionaFim(cur3);
 
     for (int i = 0; i < L_cand.get_n_elementos(); i++){
-        L_cursos->Adiciona(*it_cand);
+        L_cursos.Adiciona(*it_cand);
         it_cand = L_cand.proximo();
     }
+    // Classificação Final
+    // Cur1(4): c7,c3,__,__/__
+    // Cur2(2): c6,c1/c5,c4
+    // Cur3(4): c2,c5,c4,__/__
 
-    Curso *it_curso = L_cursos->_primeiro();
-    std::cout << it_curso->ClassificadosConsulta(0).get_nome() << std::endl;
-    std::cout << it_curso->ClassificadosConsulta(1).get_nome() << std::endl;
-    std::cout << it_curso->get_nota_de_corte() << std::endl;
+    Curso *it_curso = L_cursos._primeiro();
+    it_curso->ClassificadosConsulta(0).get_nome();
+    it_curso->ClassificadosConsulta(1).get_nome();
+    it_curso->get_nota_de_corte();
 
-    it_curso = L_cursos->proximo();
-    std::cout << it_curso->ClassificadosConsulta(0).get_nome() << std::endl;
-    std::cout << it_curso->ClassificadosConsulta(1).get_nome() << std::endl;
-    std::cout << it_curso->EsperaConsulta(0).get_nome() << std::endl;
-    std::cout << it_curso->EsperaConsulta(1).get_nome() << std::endl;
-    std::cout << it_curso->get_nota_de_corte() << std::endl;
+    it_curso = L_cursos.proximo();
+    it_curso->ClassificadosConsulta(0).get_nome();
+    it_curso->ClassificadosConsulta(1).get_nome();
+    it_curso->EsperaConsulta(0).get_nome();
+    it_curso->EsperaConsulta(1).get_nome();
+    it_curso->get_nota_de_corte();
 
-    it_curso = L_cursos->proximo();
-    std::cout << it_curso->ClassificadosConsulta(0).get_nome() << std::endl;
-    std::cout << it_curso->ClassificadosConsulta(1).get_nome() << std::endl;
-    std::cout << it_curso->ClassificadosConsulta(2).get_nome() << std::endl;
-    it_curso = nullptr;
-    it_cand = nullptr;
-    delete cur1;
-    cur1 = nullptr;
-    delete cur2;
-    cur2 = nullptr;
-    delete cur3;
-    cur3 = nullptr;
-    delete c1;
-    c1 = nullptr;
-    delete c2;
-    c2 = nullptr;
-    delete c3;
-    c3 = nullptr;
-    delete c4;
-    c4 = nullptr;
-    delete c5;
-    c5 = nullptr;
-    delete c6;
-    c6 = nullptr;
-    delete c7;
-    c7 = nullptr;
-    delete L_cursos;
+    it_curso = L_cursos.proximo();
+    it_curso->ClassificadosConsulta(0).get_nome();
+    it_curso->ClassificadosConsulta(1).get_nome();
+    it_curso->ClassificadosConsulta(2).get_nome();
+    it_curso->get_nota_de_corte();
+
+    Curso *c = L_cursos.RetiraPrimeiro();
+    c = L_cursos.RetiraPrimeiro();
+    c = L_cursos.RetiraPrimeiro();
+    
+
+
 
     return 0;
 }
