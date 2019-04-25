@@ -12,7 +12,7 @@ private:
 
 public:
     Candidato(std::string _nome, double _nota, int _i_curso, int _i_curso2);
-
+    
     std::string get_nome();
     int get_curso_1();
     int get_curso_2();

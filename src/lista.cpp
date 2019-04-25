@@ -30,6 +30,7 @@ ListaEncadeada<T>::~ListaEncadeada(){
         atual = proximo;
         proximo = atual->prox;
         delete atual;
+        atual = nullptr;
     }
     this->primeiro = nullptr;
     this->ultimo = nullptr;

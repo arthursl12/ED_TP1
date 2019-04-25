@@ -109,30 +109,45 @@ int main(int argc, char* argv[]){
         it_cand = L_cand.proximo();
     }
 
-    std::cout << L_cursos->Consulta(0).ClassificadosConsulta(0).get_nome() << std::endl;
-    std::cout << L_cursos->Consulta(0).ClassificadosConsulta(1).get_nome() << std::endl;
-    std::cout << L_cursos->Consulta(0).get_nota_de_corte();
+    Curso *it_curso = L_cursos->_primeiro();
+    std::cout << it_curso->ClassificadosConsulta(0).get_nome() << std::endl;
+    std::cout << it_curso->ClassificadosConsulta(1).get_nome() << std::endl;
+    std::cout << it_curso->get_nota_de_corte() << std::endl;
 
-    std::cout << L_cursos->Consulta(1).ClassificadosConsulta(0).get_nome() << std::endl;
-    std::cout << L_cursos->Consulta(1).ClassificadosConsulta(1).get_nome() << std::endl;
-    std::cout << L_cursos->Consulta(1).EsperaConsulta(0).get_nome() << std::endl;
-    std::cout << L_cursos->Consulta(1).EsperaConsulta(1).get_nome() << std::endl;
-    std::cout << L_cursos->Consulta(1).get_nota_de_corte() << std::endl;
+    it_curso = L_cursos->proximo();
+    std::cout << it_curso->ClassificadosConsulta(0).get_nome() << std::endl;
+    std::cout << it_curso->ClassificadosConsulta(1).get_nome() << std::endl;
+    std::cout << it_curso->EsperaConsulta(0).get_nome() << std::endl;
+    std::cout << it_curso->EsperaConsulta(1).get_nome() << std::endl;
+    std::cout << it_curso->get_nota_de_corte() << std::endl;
 
-    std::cout << L_cursos->Consulta(2).ClassificadosConsulta(0).get_nome() << std::endl;
-    std::cout << L_cursos->Consulta(2).ClassificadosConsulta(1).get_nome() << std::endl;
-    std::cout << L_cursos->Consulta(2).ClassificadosConsulta(2).get_nome() << std::endl;
-
+    it_curso = L_cursos->proximo();
+    std::cout << it_curso->ClassificadosConsulta(0).get_nome() << std::endl;
+    std::cout << it_curso->ClassificadosConsulta(1).get_nome() << std::endl;
+    std::cout << it_curso->ClassificadosConsulta(2).get_nome() << std::endl;
+    it_curso = nullptr;
+    it_cand = nullptr;
     delete cur1;
+    cur1 = nullptr;
     delete cur2;
+    cur2 = nullptr;
     delete cur3;
+    cur3 = nullptr;
     delete c1;
+    c1 = nullptr;
     delete c2;
+    c2 = nullptr;
     delete c3;
+    c3 = nullptr;
     delete c4;
+    c4 = nullptr;
     delete c5;
+    c5 = nullptr;
     delete c6;
+    c6 = nullptr;
     delete c7;
+    c7 = nullptr;
+    delete L_cursos;
 
     return 0;
 }

@@ -15,7 +15,9 @@ Curso::Curso(std::string _nome, int _vagas)
 
 Curso::~Curso(){
     delete this->classificados;
+    this->classificados = nullptr;
     delete this->espera;
+    this->classificados = nullptr;
 }
 
 /* Getters */

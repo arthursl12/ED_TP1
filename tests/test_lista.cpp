@@ -2,7 +2,7 @@
 #include "doctest.h"
 #include "lista.h"
 #include "curso.h"
-/*
+
 TEST_CASE("ListaEncadeada: construtor"){
     CHECK_NOTHROW(ListaEncadeada<Candidato>());
 }
@@ -380,7 +380,7 @@ TEST_CASE("ListaEncadeada: iterador"){
         delete cur3;
     }
 }
-*/
+
 
 TEST_CASE("ListaEncadeada<Curso>: adiciona"){
     // "Carrega os candidatos"
@@ -414,20 +414,28 @@ TEST_CASE("ListaEncadeada<Curso>: adiciona"){
         L_cursos->Adiciona(*it_cand);
         it_cand = L_cand.proximo();
     }
+    // Classificação Final
+    // Cur1(4): c7,c3,__,__/__
+    // Cur2(2): c6,c1/c5,c4
+    // Cur3(4): c2,c5,c4,__/__
 
-    CHECK(L_cursos->Consulta(0).ClassificadosConsulta(0).get_nome() == c7->get_nome());
-    CHECK(L_cursos->Consulta(0).ClassificadosConsulta(1).get_nome() == c3->get_nome());
-    CHECK(L_cursos->Consulta(0).get_nota_de_corte() == 0);
+    Curso *it_curso = L_cursos->_primeiro();
+    CHECK(it_curso->ClassificadosConsulta(0).get_nome() == c7->get_nome());
+    CHECK(it_curso->ClassificadosConsulta(1).get_nome() == c3->get_nome());
+    CHECK(it_curso->get_nota_de_corte() == 0);
 
-    CHECK(L_cursos->Consulta(1).ClassificadosConsulta(0).get_nome() == c6->get_nome());
-    CHECK(L_cursos->Consulta(1).ClassificadosConsulta(1).get_nome() == c1->get_nome());
-    CHECK(L_cursos->Consulta(1).EsperaConsulta(0).get_nome() == c5->get_nome());
-    CHECK(L_cursos->Consulta(1).EsperaConsulta(1).get_nome() == c4->get_nome());
-    CHECK(L_cursos->Consulta(1).get_nota_de_corte() == c1->get_nota());
+    it_curso = L_cursos->proximo();
+    CHECK(it_curso->ClassificadosConsulta(0).get_nome() == c6->get_nome());
+    CHECK(it_curso->ClassificadosConsulta(1).get_nome() == c1->get_nome());
+    CHECK(it_curso->EsperaConsulta(0).get_nome() == c5->get_nome());
+    CHECK(it_curso->EsperaConsulta(1).get_nome() == c4->get_nome());
+    CHECK(it_curso->get_nota_de_corte() == c1->get_nota());
 
-    CHECK(L_cursos->Consulta(2).ClassificadosConsulta(0).get_nome() == c2->get_nome());
-    CHECK(L_cursos->Consulta(2).ClassificadosConsulta(1).get_nome() == c5->get_nome());
-    CHECK(L_cursos->Consulta(2).ClassificadosConsulta(2).get_nome() == c4->get_nome());
+    it_curso = L_cursos->proximo();
+    CHECK(it_curso->ClassificadosConsulta(0).get_nome() == c2->get_nome());
+    CHECK(it_curso->ClassificadosConsulta(1).get_nome() == c5->get_nome());
+    CHECK(it_curso->ClassificadosConsulta(2).get_nome() == c4->get_nome());
+    CHECK(it_curso->get_nota_de_corte() == 0);
 
     delete cur1;
     delete cur2;
@@ -440,7 +448,6 @@ TEST_CASE("ListaEncadeada<Curso>: adiciona"){
     delete c6;
     delete c7;
     //delete L_cursos;
-
 }
 
 /*
