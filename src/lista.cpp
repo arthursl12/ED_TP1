@@ -114,21 +114,20 @@ void ListaEncadeada<T>::Adiciona(T& novo, int i){
 
 template<>
 /* Procura um Candidato com nota menor ou igual à do Candidato pedido;
-retorna o ponteiro do primeiro candidato com nota menor ou igual
+retorna o iterador do primeiro candidato com nota menor ou igual
 retorna nullptr se o candidato pedido for o menor */
 Candidato* ListaEncadeada<Candidato>::Pesquisa(Candidato& cand){
     if (this->Vazia() == true)
         throw std::invalid_argument("Lista Vazia");
 
-    Celula<Candidato>* atual = this->primeiro->prox; // j = 0 (posição 0)
-    for (int j = 1; atual->objeto->get_nota() > cand.get_nota(); j++){    
-        if (j == this->n_elementos){
-            // Chegou no último e a nota ainda é maior, retorna nullptr
-            return nullptr;
+    Candidato* it_atual = _primeiro(); // j = 0 (posição 0)
+    for (int j = 1; it_atual->get_nota() > cand.get_nota(); j++){    
+        it_atual = proximo();
+        if (j == this->n_elementos && it_atual == nullptr){
+            break;
         }
-        atual = atual->prox;
-    } // Encontrar um com a nota igual ou menor
-    return atual->objeto;
+    } 
+    return it_atual;
 }
 
 template<class T>

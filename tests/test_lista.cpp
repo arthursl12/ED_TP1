@@ -294,9 +294,13 @@ TEST_CASE("ListaEncadeada<Candidato>: pesquisa"){
     L_cand.AdicionaFim(c3);
     L_cand.AdicionaFim(c2);
 
-    CHECK(L_cand.Pesquisa(C1)->get_nome() == c2.get_nome());
-    CHECK(L_cand.Pesquisa(C2)->get_nome() == c3.get_nome());
-    CHECK(L_cand.Pesquisa(C3) == nullptr);
+    Candidato *c = L_cand.Pesquisa(C1);
+    CHECK(c->get_nome() == c2.get_nome());
+    c = L_cand.Pesquisa(C2);
+    CHECK(c->get_nome() == c3.get_nome());
+    c = L_cand.Pesquisa(C3);
+    CHECK(c == nullptr);
+
 }
 
 TEST_CASE("ListaEncadeada<Candidato>: get_indice"){

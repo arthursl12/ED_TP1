@@ -9,8 +9,8 @@ private:
     const char* nome;
     double nota_de_corte;
     int vagas;
-    ListaEncadeada<Candidato> classificados;
-    ListaEncadeada<Candidato> espera;
+    ListaEncadeada<Candidato> Classificados;
+    ListaEncadeada<Candidato> Espera;
 
 public:
     Curso(const char* _nome, int _vagas);
@@ -32,6 +32,8 @@ public:
     Candidato EsperaConsulta(int i);
 
     Candidato* ArrumaEspera(int i_curso, int situacao);
+    int desempataEspera(Candidato& cand, int i_curso, Candidato* empate);
+    int adicionaEspera(Candidato& cand, int i_curso);
 };
 
 

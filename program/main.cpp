@@ -114,22 +114,22 @@ int main(int argc, char* argv[]){
     // Cur3(4): c2,c5,c4,__/__
 
     Curso *it_curso = L_cursos._primeiro();
-    it_curso->ClassificadosConsulta(0).get_nome();
-    it_curso->ClassificadosConsulta(1).get_nome();
-    it_curso->get_nota_de_corte();
+    //CHECK(it_curso->ClassificadosConsulta(0).get_nome() == c7.get_nome());
+    //CHECK(it_curso->ClassificadosConsulta(1).get_nome() == c3.get_nome());
+    //CHECK(it_curso->get_nota_de_corte() == 0);
 
     it_curso = L_cursos.proximo();
-    it_curso->ClassificadosConsulta(0).get_nome();
-    it_curso->ClassificadosConsulta(1).get_nome();
-    it_curso->EsperaConsulta(0).get_nome();
-    it_curso->EsperaConsulta(1).get_nome();
-    it_curso->get_nota_de_corte();
+    //CHECK(it_curso->ClassificadosConsulta(0).get_nome() == c6.get_nome());
+    //CHECK(it_curso->ClassificadosConsulta(1).get_nome() == c1.get_nome());
+    //CHECK(it_curso->EsperaConsulta(0).get_nome() == c5.get_nome());
+    //CHECK(it_curso->EsperaConsulta(1).get_nome() == c4.get_nome());
+    //CHECK(it_curso->get_nota_de_corte() == c1.get_nota());
 
     it_curso = L_cursos.proximo();
-    it_curso->ClassificadosConsulta(0).get_nome();
-    it_curso->ClassificadosConsulta(1).get_nome();
-    it_curso->ClassificadosConsulta(2).get_nome();
-    it_curso->get_nota_de_corte();
+    //CHECK(it_curso->ClassificadosConsulta(0).get_nome() == c2.get_nome());
+    //CHECK(it_curso->ClassificadosConsulta(1).get_nome() == c5.get_nome());
+    //CHECK(it_curso->ClassificadosConsulta(2).get_nome() == c4.get_nome());
+    //CHECK(it_curso->get_nota_de_corte() == 0);
 
     Curso *c = L_cursos.RetiraPrimeiro();
     c = L_cursos.RetiraPrimeiro();
