@@ -219,43 +219,16 @@ Candidato* Curso::Esperaproximo(){
 /* Reorganiza a lista de Espera caso alguém dos Classificados tenha sido 'empurrado'
 para lá */
 Candidato* Curso::ArrumaEspera(int i_curso, int situacao){
-    Candidato* novo = Espera.RetiraPrimeiro();
+    Candidato* empurrado = Espera.RetiraPrimeiro();
 
-    if (Espera.get_n_elementos() > 0){
-        Candidato* primeiro = Espera._primeiro();
-        Candidato *retorno = novo;
-        if (novo->get_nota() == primeiro->get_nota()){
-            int res = desempataEspera(*novo, i_curso, primeiro);
-        }else if (novo->get_nota() < primeiro->get_nota()){
-            /* A nota do 'empurrado' é menor, tem-se que iterar pela Espera até 
-            encontrar alguém que tenha nota menor que a dele */
-            Candidato *c = this->Espera.Pesquisa(*novo);
-            if (c == nullptr){
-                /* O 'empurrado' tem a menor nota da Espera */
-                this->Espera.AdicionaFim(*novo);
-            }else{
-                if (novo->get_nota() == primeiro->get_nota()){
-                    /* Há um empate de notas dentro de Espera */
-                    int res = desempataEspera(*novo, i_curso, primeiro);
-                }else{
-                    /* Adiciona o novo candidato à frente do candidato com
-                    a nota menor */
-                    this->Espera.Adiciona(*novo,this->Espera.get_indice(primeiro));
-                }
-            }
-        }
-        /* Caso contrário, o que foi 'empurrado' para fora dos Classificados tinha 
-        nota maior que o primeiro da lista de Espera, e então o 'empurrado' fica em
-        primeiro da lista de Espera */
-    }
+    if (Espera.get_n_elementos() > 0)
+        adicionaEspera(*empurrado,i_curso);
+    else
+        Espera.AdicionaInicio(*empurrado);
 
-    Espera.AdicionaInicio(*novo);
-    if (situacao == 1){
-        return novo;
-    }else{
+    
+    if (situacao == 1)
+        return empurrado;
+    else
         return nullptr;
-    }
-    
-
-    
 }

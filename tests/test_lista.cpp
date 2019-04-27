@@ -427,7 +427,7 @@ TEST_CASE("ListaEncadeada<Curso>: adiciona"){
     CHECK(it_curso->ClassificadosConsulta(0).get_nome() == c6.get_nome());
     CHECK(it_curso->ClassificadosConsulta(1).get_nome() == c1.get_nome());
     CHECK(it_curso->EsperaConsulta(0).get_nome() == c5.get_nome());
-    CHECK(it_curso->EsperaConsulta(1).get_nome() == c4.get_nome());
+    CHECK(*it_curso->EsperaConsulta(1).get_nome() == *c4.get_nome());
     CHECK(it_curso->get_nota_de_corte() == c1.get_nota());
 
     it_curso = L_cursos.proximo();
