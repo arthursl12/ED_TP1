@@ -19,6 +19,7 @@ public:
     const char* get_nome();
     double get_nota_de_corte();
     int get_vagas();
+    void set_nota_corte();
 
     Candidato* Classif_primeiro();
     Candidato* Classifproximo();
@@ -34,6 +35,8 @@ public:
     Candidato* ArrumaEspera(int i_curso, int situacao);
     int desempataEspera(Candidato& cand, int i_curso, Candidato* empate);
     int adicionaEspera(Candidato& cand, int i_curso);
+    int desempatador(Candidato &cand, Candidato* atual, int i_curso);
+    int desempataClassificados(Candidato& cand, int i_curso, Candidato* empate);
 };
 
 
