@@ -8,7 +8,7 @@ TARGET := main
 SRCEXT := cpp
 CFLAGS := --coverage -g -Wall -Wno-unknown-pragmas -fno-strict-overflow -O3 -std=c++11
 T_CFLAGS := --coverage -g -Wall -O3
-INC := -I include -I third-party
+INC := -I third-party -I $(MYDIR)
 
 
 MODULES = lista curso candidato
@@ -19,25 +19,25 @@ TESTSEXE = $(addsuffix .exe,$(TESTS))
 TESTSEXEDIR = $(addprefix bin/,$(TESTSEXE))
 COVER = $(addsuffix .gcov,$(SOURCES))
 
-SOURCEDIR = $(addprefix $(MYDIR)src/,$(SOURCES))
+SOURCEDIR = $(addprefix $(MYDIR),$(SOURCES))
 OBJDIR = $(addprefix build/,$(OBJECTS))
 TSTDIR = $(addprefix tests/test_,$(SOURCES))
-TGTDIR = $(BIN)/$(TARGET)
+TGTDIR = $(TARGET)
 
 all: $(TGTDIR)
 
-$(OBJDIR): build/%.o : src/%.cpp
+$(OBJDIR): build/%.o : %.cpp
 	@echo ""
 	@echo OBJETO: $@
 	$(shell mkdir -p build)
 	#@mkdir -p ../build
-	$(CC) $(INC) $(CFLAGS) -c $(patsubst build/%.o,src/%.cpp,$@) -o $@
+	$(CC) $(INC) $(CFLAGS) -c $(patsubst build/%.o,%.cpp,$@) -o $@
 
 $(TGTDIR): $(OBJDIR)
 	@echo ""
 	@echo COMPILANDO MAIN
-	@mkdir -p bin
-	$(CC) $(INC) $(CFLAGS) $(OBJDIR) program/$(TARGET).cpp -o $(TGTDIR)
+	$(CC) $(INC) $(CFLAGS) $(OBJDIR) $(TARGET).cpp -o $(TGTDIR)
+	$(RM) $(MYDIR)/main.gcno
 
 
 tester: $(TESTS)
@@ -45,35 +45,35 @@ $(TESTS): tests/test_%.o : tests/test_%.cpp
 	$(shell mkdir -p tests)
 	@echo ""
 	@echo TESTE: $@
-	$(CC) $(INC) $(T_CFLAGS) tests/$@ $(OBJDIR) -o bin/$@.exe
-	bin/$@.exe
-	$(RM) test_*.gcno
+	$(CC) $(INC) $(T_CFLAGS) tests/$@ $(OBJDIR) -o tests/$@.exe
+	tests/$@.exe
+	$(RM) $(MYDIR)/test_*.gcno $(MYDIR)/test_*.gcda
 
 comp: $(TGTDIR)
-	$(CC) $(INC) $(CFLAGS) $(OBJDIR) program/$(TARGET).cpp -o $(TGTDIR)
+	$(CC) $(INC) $(CFLAGS) $(OBJDIR) $(TARGET).cpp -o $(TGTDIR)
 	#@bin/main.exe
-	$(RM) main.gcno
-	$(RM) main.gcda
+	$(RM) $(MYDIR)/main.gcno
+	$(RM) $(MYDIR)/main.gcda
 
 run:
-	@./bin/main
-	$(RM) main.gcno
-	$(RM) main.gcda
+	@./main
+	$(RM) $(MYDIR)/main.gcno
+	$(RM) $(MYDIR)/main.gcda
 
 debug:
-	@gdb $(BIN)/main
+	@gdb $(MYDIR)/main
 
 coverage: $(COVER)
-$(COVER): src/%.gcov : src/%.cpp
+$(COVER): %.gcov : %.cpp
 	@echo ""
 	@echo POSIÇAO: $@
-	@gcov src/$(patsubst %.cpp.gcov,%.cpp,$@) -l -p -o build
+	@gcov $(patsubst %.cpp.gcov,%.cpp,$@) -l -p -o build
 	
-	$(RM) src#$(patsubst %.cpp.gcov,%.cpp,$@)#*.gcov
+	$(RM) #$(patsubst %.cpp.gcov,%.cpp,$@)#*.gcov
 	$(RM) #usr#lib*.gcov
 	$(RM) *.gcda *.gcno
 
 clean:
-	$(RM) -r build/* coverage/* *.gcda *.gcno *.gcov *.exe *.o bin/*
+	$(RM) -r build/* coverage/* *.gcda *.gcno *.gcov *.exe *.o bin/* tests/*.exe main
 
 .PHONY: clean coverage

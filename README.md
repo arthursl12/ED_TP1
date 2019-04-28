@@ -8,7 +8,7 @@
 * (OK - Resolvido) Erro no destrutor do curso no teste do iterador da lista de cursos (verificar)
     obs.: os objetos foram alterados como era necessário
 * REFATORAR:
-    - Cursos::Adiciona (função muito grande, código repetido)
+    - (OK)Cursos::Adiciona (função muito grande, código repetido)
 
 * TESTES
     - ArrumaEspera

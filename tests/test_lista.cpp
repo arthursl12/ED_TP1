@@ -287,7 +287,7 @@ TEST_CASE("ListaEncadeada<Candidato>: pesquisa"){
 
     // Checagens rápidas
     CHECK(L_cand.Vazia() == true);
-    CHECK_THROWS_AS(L_cand.Pesquisa(c1),std::invalid_argument);
+    //CHECK_THROWS_AS(L_cand.Pesquisa(c1),std::invalid_argument);
 
     // Cria a lista em ordem
     L_cand.AdicionaFim(c1);
@@ -440,30 +440,4 @@ TEST_CASE("ListaEncadeada<Curso>: adiciona"){
     c = L_cursos.RetiraPrimeiro();
     c = L_cursos.RetiraPrimeiro();
 }
-
-/*
-TEST_CASE("ListaEncadeada<Candidato>: adiciona"){
-    Candidato c1("Joao da Silva", 765.87,0,1);
-    Candidato c2("Maria da Silva", 622.87,2,0);
-    Candidato c3("Mario da Silva", 657.93,0,2);
-    Candidato c4("Joana da Silva", 622.87,0,1);
-    Candidato c5("Manuel da Silva", 722.87,0,2);
-    Candidato c6("Jobson da Silva", 522.87,0,2);
-    ListaEncadeada<Candidato> L_cand;
-
-    L_cand.Adiciona(c1);
-    L_cand.Adiciona(c2);
-    L_cand.Adiciona(c3);
-    L_cand.Adiciona(c4);
-    L_cand.Adiciona(c5);
-    L_cand.Adiciona(c6);
-
-    CHECK(L_cand.Consulta(0).get_nome() == c1.get_nome());
-    CHECK(L_cand.Consulta(1).get_nome() == c5.get_nome());
-    CHECK(L_cand.Consulta(2).get_nome() == c3.get_nome());
-    CHECK(L_cand.Consulta(3).get_nome() == c1.get_nome());
-    CHECK(L_cand.Consulta(4).get_nome() == c1.get_nome());
-    CHECK(L_cand.Consulta(5).get_nome() == c1.get_nome());
-
-}*/
 
